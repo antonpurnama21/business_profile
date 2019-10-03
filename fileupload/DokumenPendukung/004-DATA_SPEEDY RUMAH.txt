@@ -1,0 +1,32 @@
+DATA SPEEDY RUMAH :
+
+no.speedy : 131626112735
+Gannguna	: 245117	147
+
+BENY F : 081911777291; 0266-7017471
+
+SPEEDY PASSWORD : 17645672	WRURJE15NX
+
+account email @telkom.net.id:
+username : n0nd4
+passwoord : Zh$farina877
+
+http://telkomspeedy.com/node/73
+========================================
+username : 131626112735 (no.speedy)
+password : WRURJE15NX
+========================================
+
+account Modem ADSL TP-LINK TD-8817 
+
+username : admin
+passw	: Zh$fa877
+
+Setting PPoE:
++--------------------------+
+no.speedy : 131626112735
+password  : WRURJE15NX
+
+Encapsulation = PPPoE LLc 
+PVC 1
+• VPI = 8 • VC I = 81
