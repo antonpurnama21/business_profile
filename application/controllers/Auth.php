@@ -20,7 +20,7 @@ class Auth extends CI_Controller {
 			redirect(base_url('dashboard')) ;
 		endif;
 		$data = array(
-		    'titleWeb' => 'Login Page',
+		    'titleWeb' => 'Login Business Profile',
 		);
 		$this->template->load('login', null, $data);
 	}
