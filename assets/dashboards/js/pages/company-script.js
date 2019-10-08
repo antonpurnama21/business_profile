@@ -26,7 +26,7 @@ $(function() {
             url: $('#getSector').val(),
             dataType:"JSON",
             success: function(data) {
-                $('#Sector').select2({
+                $('#sectorCompany').select2({
                     placeholder: 'Pick Company Sector',
                     data: data
                 });

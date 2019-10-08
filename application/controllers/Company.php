@@ -31,7 +31,7 @@ class Company extends CommonDash {
 			),
 			'titleWeb' => "Company Profile",
 			'breadcrumb' => explode(',', 'Company,Company List'),
-			'dMaster'	=> $this->Mod_crud->getData('result','c.*,cp.*', 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID')),
+			'dMaster'	=> $this->Mod_crud->getData('result','cp.companyProfileID, cp.companyID, cp.companyName, cp.sectorCompany, cp.EmailAddress', 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID')),
 			'dField'	=> $this->Mod_crud->get_field_info('t_company_profile'),
 			
 		);
@@ -259,11 +259,11 @@ class Company extends CommonDash {
 	public function getSector()
 	{
 		$resp = array();
-		$data = $this->Mod_crud->getData('result', 'Sector', 't_company_sector');
+		$data = $this->Mod_crud->getData('result', 'sectorCompany', 't_company_sector');
 		if (!empty($data)) {
 			foreach ($data as $key) {
-				$mk['id'] = $key->Sector;
-				$mk['text'] = $key->Sector;
+				$mk['id'] = $key->sectorCompany;
+				$mk['text'] = $key->sectorCompany;
 				array_push($resp, $mk);
 			}
 		}
@@ -350,7 +350,7 @@ class Company extends CommonDash {
 		$keyword 	= $this->input->post('Keyword');
 		$data = array();
 		if ($sector) {
-			$data[]	= 'cp.Sector = "'.$sector.'"';		
+			$data[]	= 'cp.sectorCompany = "'.$sector.'"';		
 		}
 
 		if ($field) {

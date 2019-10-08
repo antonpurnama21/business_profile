@@ -33,7 +33,7 @@
 			<table class="table datatable-responsive-row-control table-hover">
 				<thead>
 					<tr style="font-size:12px;text-align:center;">
-						
+						<th></th>
 						<th width="5%">No</th>
 						<?php foreach ($dField as $key): 
 							$name = $key->name;
@@ -52,7 +52,7 @@
 									$no++;
 						?>
 							<tr class="text-size-mini">
-								
+								<td></td>
 								<td><?= $no ?>.</td>
 								<?php foreach ($dField as $key2){
 									$name = $key2->name; ?>

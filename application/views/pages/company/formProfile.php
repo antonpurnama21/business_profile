@@ -45,7 +45,7 @@
 								$read = '';
 							}
 
-							if ($name == 'companyProfileID' OR $name == 'companyID' OR $name == 'Sector' OR $name == 'companyName') {
+							if ($name == 'companyProfileID' OR $name == 'companyID' OR $name == 'sectorCompany' OR $name == 'companyName') {
 								$btnDelete = '';
 							}else{
 							$btnDelete = '<a class="btn btn-danger" onclick="confirms(`Delete`,`Field '.ucwords($pass2).'?`,`'.base_url("company/deleteField").'`,`'.$key->name.'`)"><i class="icon-trash""></i></a>';

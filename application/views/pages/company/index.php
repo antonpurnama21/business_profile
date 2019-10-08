@@ -34,14 +34,19 @@
 			<table class="table datatable-responsive-row-control table-hover">
 				<thead>
 					<tr style="font-size:12px;text-align:center;">
-						
 						<th width="5%">No</th>
-						<?php foreach ($dField as $key): 
-							$name = $key->name;
-							$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
-							$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1); ?>
-						<th width="20%"><?=ucwords($pass2)?></th>
-						<?php endforeach ?>
+						<?php 
+						if (!empty($dMaster)) {
+							foreach ($dMaster as $key) {
+								foreach ($dField as $key2){ 
+								$name = $key2->name;
+								$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
+								$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1); 
+								if (!empty($key->$name)) {?>
+						<th><?=ucwords($pass2); ?></th>
+						<?php } }
+							}
+						}?>
 						<th width="20%">Action</th>
 					</tr>
 				</thead>
@@ -53,19 +58,19 @@
 									$no++;
 						?>
 							<tr class="text-size-mini">
-								
 								<td><?= $no ?>.</td>
 								<?php foreach ($dField as $key2){
-									$name = $key2->name; ?>
+									$name = $key2->name; 
+									if (!empty($key->$name)) {?>
 
 								<td><?= $key->$name ?></td>
 
-								<?php } ?>
+								<?php } } ?>
 								<td class="text-center">
-									<a data-placement="left" data-popup="tooltip" title="Add / Edit Profile" style="margin-bottom: 5px" class="btn btn-primary" href="<?=base_url('company/form/').$key->companyID ?>"><i class="icon-file-plus"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Edit" style="margin-bottom: 5px" class="btn btn-primary" onclick="showModal('<?=base_url("company/modalEdit") ?>','<?=$key->companyID.'~'.$key->companyName?>', 'editcompany')"><i class="icon-quill4"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Show Modal Profile" style="margin-bottom: 5px" class="btn btn-primary" onclick="showModal('<?=base_url("company/modalProfile")?>', '<?=$key->companyID.'~'.$key->companyName?>', 'modalprofile')"><i class="icon-eye"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Delete Data" style="margin-bottom: 5px" class="btn btn-danger" onclick="confirms('Delete','Data `<?=$key->companyName?>`?','<?=base_url("company/delete")?>','<?=$key->companyID?>')"><i class="icon-trash"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Add / Edit Profile" style="margin: 5px" href="<?=base_url('company/form/').$key->companyID ?>"><i class="icon-file-plus"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Edit" style="margin: 5px" onclick="showModal('<?=base_url("company/modalEdit") ?>','<?=$key->companyID.'~'.$key->companyName?>', 'editcompany')"><i class="icon-quill4"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Show Modal Profile" style="margin: 5px" onclick="showModal('<?=base_url("company/modalProfile")?>', '<?=$key->companyID.'~'.$key->companyName?>', 'modalprofile')"><i class="icon-eye"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Delete Data" style="margin: 5px; color: red;" onclick="confirms('Delete','Data `<?=$key->companyName?>`?','<?=base_url("company/delete")?>','<?=$key->companyID?>')"><i class="icon-trash"></i></a>
 								</td>
 							</tr>
 						<?php
