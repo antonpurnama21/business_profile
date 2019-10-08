@@ -34,19 +34,13 @@
 			<table class="table datatable-responsive-row-control table-hover">
 				<thead>
 					<tr style="font-size:12px;text-align:center;">
-						<th width="5%">No</th>
-						<?php 
-						if (!empty($dMaster)) {
-							foreach ($dMaster as $key) {
-								foreach ($dField as $key2){ 
-								$name = $key2->name;
+						<th>No</th>
+						<?php foreach ($dField as $key){ 
+								$name = $key->name;
 								$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
-								$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1); 
-								if (!empty($key->$name)) {?>
+								$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);?>
 						<th><?=ucwords($pass2); ?></th>
-						<?php } }
-							}
-						}?>
+						<?php } ?>
 						<th width="20%">Action</th>
 					</tr>
 				</thead>
@@ -60,17 +54,17 @@
 							<tr class="text-size-mini">
 								<td><?= $no ?>.</td>
 								<?php foreach ($dField as $key2){
-									$name = $key2->name; 
-									if (!empty($key->$name)) {?>
+									$name = $key2->name; ?>
 
 								<td><?= $key->$name ?></td>
 
-								<?php } } ?>
+								<?php } ?>
 								<td class="text-center">
-									<a data-placement="left" data-popup="tooltip" title="Add / Edit Profile" style="margin: 5px" href="<?=base_url('company/form/').$key->companyID ?>"><i class="icon-file-plus"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Edit" style="margin: 5px" onclick="showModal('<?=base_url("company/modalEdit") ?>','<?=$key->companyID.'~'.$key->companyName?>', 'editcompany')"><i class="icon-quill4"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Show Modal Profile" style="margin: 5px" onclick="showModal('<?=base_url("company/modalProfile")?>', '<?=$key->companyID.'~'.$key->companyName?>', 'modalprofile')"><i class="icon-eye"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Delete Data" style="margin: 5px; color: red;" onclick="confirms('Delete','Data `<?=$key->companyName?>`?','<?=base_url("company/delete")?>','<?=$key->companyID?>')"><i class="icon-trash"></i></a>
+									<a data-placement="top" data-popup="tooltip" title="Add / Edit Profile" style="margin: 5px" onclick="location.href='<?=base_url('company/form/'.$key->companyID) ?>'"><i class="icon-file-plus"></i></a>
+
+									<a data-placement="top" data-popup="tooltip" title="Edit" style="margin: 5px" onclick="showModal('<?=base_url("company/modalEdit") ?>','<?=$key->companyID.'~'.$key->companyName?>', 'editcompany')"><i class="icon-quill4"></i></a>
+									<a data-placement="top" data-popup="tooltip" title="Show Modal Profile" style="margin: 5px" onclick="showModal('<?=base_url("company/modalProfile")?>', '<?=$key->companyID.'~'.$key->companyName?>', 'modalprofile')"><i class="icon-eye"></i></a>
+									<a data-placement="top" data-popup="tooltip" title="Delete Data" style="margin: 5px; color: red;" onclick="confirms('Delete','Data `<?=$key->companyName?>`?','<?=base_url("company/delete")?>','<?=$key->companyID?>')"><i class="icon-trash"></i></a>
 								</td>
 							</tr>
 						<?php
@@ -101,42 +95,79 @@
 		<input type="hidden" name="getField" id="getField" value="<?= base_url('company/getField') ?>">
 		<form class="form-horizontal form-validate-jquery" action="<?= base_url('company/search') ?>" method="POST" enctype="multipart/form-data" name="pengaduan-form" id="pengaduan-form">
 			<fieldset class="content-group">
-				
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label col-lg-4">Field Table</label>
-						<div class="col-lg-8">
-							<div class="input-group">
-								<div class="input-group-addon"><i class="icon-direction"></i></div>
-								<select name="Field" id="Field" class="select2">
-									<option value="<?= (isset($field)) ? $field : '' ?>"><?= (isset($field)) ? $field : '' ?></option>
-								</select>
-							</div>
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-direction"></i></div>
+							<select name="Field1" id="Field1" class="select2">
+								<option value="">Default</option>
+								<?php foreach ($Field as $key):
+									$name = $key->name;
+									$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
+									$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);?>
+								<option value="<?=$name?>"><?= ucwords($pass2)?></option>
+								<?php endforeach ?>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-direction"></i></div>
+							<select name="Field2" id="Field2" class="select2">
+								<option value="">Default</option>
+								<?php foreach ($Field as $key):
+									$name = $key->name;
+									$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
+									$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);?>
+								<option value="<?=$name?>"><?= ucwords($pass2)?></option>
+								<?php endforeach ?>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-direction"></i></div>
+							<select name="Field3" id="Field3" class="select2">
+								<option value="">Default</option>
+								<?php foreach ($Field as $key):
+									$name = $key->name;
+									$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
+									$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);?>
+								<option value="<?=$name?>"><?= ucwords($pass2)?></option>
+								<?php endforeach ?>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-direction"></i></div>
+							<select name="Field4" id="Field4" class="select2">
+								<option value="">Default</option>
+								<?php foreach ($Field as $key):
+									$name = $key->name;
+									$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
+									$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);?>
+								<option value="<?=$name?>"><?= ucwords($pass2)?></option>
+								<?php endforeach ?>
+							</select>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label col-lg-4">Company Sector</label>
-						<div class="col-lg-8">
-							<div class="input-group">
-								<div class="input-group-addon"><i class="icon-direction"></i></div>
-								<select name="Sector" id="Sector" class="select2">
-									<option value="<?= (isset($sector)) ? $sector : '' ?>"><?= (isset($sector)) ? $sector : '' ?></option>
-								</select>
-							</div>
+				<hr>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-direction"></i></div>
+							<select name="Sector" id="Sector" class="select2">
+								<option value="">Pick Company Sector</option>
+								<option value="<?= (isset($sector)) ? $sector : '' ?>"><?= (isset($sector)) ? $sector : '' ?></option>
+							</select>
 						</div>
 					</div>
-				</div>
-
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="control-label col-lg-2">Keyword</label>
-						<div class="col-lg-10">
-							<div class="input-group">
-								<div class="input-group-addon"><i class="icon-search4"></i></div>
-								<input type="text" name="Keyword" id="Keyword" value="<?= (isset($keyword)) ? $keyword : '' ?>" class="form-control" required="required" required>
-							</div>
+					<div class="col-lg-8">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-search4"></i></div>
+							<input type="text" name="Keyword" id="Keyword" value="<?= (isset($keyword)) ? $keyword : '' ?>" class="form-control" required="required" required>
 						</div>
 					</div>
 				</div>
@@ -144,7 +175,7 @@
 
 
 			</fieldset>
-			<div class="text-right">
+			<div class="text-left">
 				<button type="reset" class="btn btn-default" id="reset">Reset <i class="icon-reload-alt position-right"></i></button>
 				<button type="submit" class="btn btn-primary" id="submit-pengaduan" name="submit-pengaduan">Search <i class="icon-search4 position-right"></i></button>
 			</div>

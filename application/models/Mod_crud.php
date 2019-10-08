@@ -19,9 +19,11 @@ class Mod_crud extends CI_Model {
 				$command .= ' WHERE '.implode(' AND ',$where);
 			}
 
-		if ($like != null)
+		if ($like != null AND $where != null)
 			{	
-				$command .= ' WHERE '.implode(' ',$like);
+				$command .= $like;
+			}elseif ($like != null AND $where == null) {
+				$command .= ' WHERE '.$like;
 			}
 
 		if ($group != null)
@@ -67,9 +69,11 @@ class Mod_crud extends CI_Model {
 				$command .= ' WHERE '.implode(' AND ',$where);
 			}
 
-		if ($like != null)
+		if ($like != null AND $where != null)
 			{	
-				$command .= ' WHERE '.implode(' ',$like);
+				$command .= $like;
+			}elseif ($like != null AND $where == null) {
+				$command .= ' WHERE '.$like;
 			}
 
 		if ($group != null)
@@ -192,6 +196,50 @@ class Mod_crud extends CI_Model {
 		return $table_list;
 	}
 
+	function qry_field_info($select, $table, $limit = null, $offset = null, $joins = null, $where = null, $group = null, $order = null, $like = null)
+	{
+		$command = "SELECT $select FROM $table";
+	 	if ($joins != null)
+			{	
+				foreach($joins as $key => $values)
+				{
+					$command .= " LEFT JOIN $key ON $values ";
+				}
+			}
+			
+		if ($where != null)
+			{	
+				$command .= ' WHERE '.implode(' AND ',$where);
+			}
+
+		if ($like != null AND $where != null)
+			{	
+				$command .= $like;
+			}elseif ($like != null AND $where == null) {
+				$command .= ' WHERE '.$like;
+			}
+
+		if ($group != null)
+			{	
+				$command .= ' GROUP BY '.implode(', ',$group);
+			}
+
+		if ($order != null)
+			{	
+				$command .= ' ORDER BY '.implode(', ',$order);
+			}
+		if ($limit != null)
+			{
+				if ($offset != null)
+					{
+						$command .= " LIMIT $offset, $limit";
+					}else{
+						$command .= " LIMIT $limit";
+					}	
+			}
+		$data = $this->db->query($command);
+		return $data->field_data();
+	}
 	
 	function get_field_info($table_name){
 		return $this->db->field_data($table_name);

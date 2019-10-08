@@ -41,97 +41,73 @@ class Search extends CommonDash {
 	{	
 		$search 	= $this->input->post('inputsearch');
 		$db 		= array();
+		$dt = array();
 
 		if ($search) {
 			$cp = $this->Mod_crud->get_field_info('t_company_profile');
-			$i = 0;
+			$i = 0; 
 			foreach ($cp as $key) {
 				$i++;
-				if ($i==1) {
-					$dt[] = $key->name." LIKE '%".$search."%'";
-				}else{
-					$dt[] = "OR ".$key->name." LIKE '%".$search."%'";
-				}
-			}
 
-			$dtsearch['cp'] = $this->Mod_crud->getData('result','*', 't_company_profile',null,null,null,null,null,null,$dt);
+				$dt[] = $key->name.' LIKE "%'.$search.'%" ';
+				// if ($i==1) {
+				// 	$dt[] = $key->name." LIKE '%".$search."%'";
+				// }else{
+				// 	$dt[] = " OR ".$key->name." LIKE '%".$search."%'";
+				// }
+			}
+			$like = implode(" OR ", $dt);
+			$dtsearch['cp'] = $this->Mod_crud->getData('result','*', 't_company_profile',null,null,null,null,null,null,$like);
 			$dtField['cp'] 	= $this->Mod_crud->get_field_info('t_company_profile');
-			$total1 = $this->Mod_crud->countData('result','*', 't_company_profile',null,null,null,null,null,null,$dt);
+			$total1 = $this->Mod_crud->countData('result','*', 't_company_profile',null,null,null,null,null,null,$like);
 			if ($total1 > 0) {
 				$db['cp'] 		= 'company';
 			}
 		}
-		// else{
-
-		// 	$db[] 	= FALSE;
-		// 	$total1	= 0;
-		// 	// $dtsearch[] = '';
-		// 	// $dtField	= '';
-		// }
 
 		if ($search) {
-			$cp1 = $this->Mod_crud->get_field_info('t_comunity_profile');
+			$cm = $this->Mod_crud->get_field_info('t_comunity_profile');
 			$i = 0;
-			foreach ($cp1 as $key) {
+			foreach ($cm as $key) {
 				$i++;
-				if ($i==1) {
-					$dt1[] = $key->name." LIKE '%".$search."%'";
-				}else{
-					$dt1[] = "OR ".$key->name." LIKE '%".$search."%'";
-				}
+				$dt1[] = $key->name.' LIKE "%'.$search.'%" ';
+				// if ($i==1) {
+				// 	$dt1[] = $key->name." LIKE '%".$search."%'";
+				// }else{
+				// 	$dt1[] = "OR ".$key->name." LIKE '%".$search."%'";
+				// }
 			}
-
-			$dtsearch['cm'] = $this->Mod_crud->getData('result','*', 't_comunity_profile',null,null,null,null,null,null,$dt1);
+			$like = implode(" OR ", $dt1);
+			$dtsearch['cm'] = $this->Mod_crud->getData('result','*', 't_comunity_profile',null,null,null,null,null,null,$like);
 			$dtField['cm']	= $this->Mod_crud->get_field_info('t_comunity_profile');
-			$total2 	= $this->Mod_crud->countData('result','*', 't_comunity_profile',null,null,null,null,null,null,$dt1);
+			$total2 	= $this->Mod_crud->countData('result','*', 't_comunity_profile',null,null,null,null,null,null,$like);
 			if ($total2 > 0) {
 				$db['cm'] 		= 'comunity';
 			}
 
 		}
-		// else{
-		// 	$db[] 		= FALSE;
-		// 	$total2	= 0;
-		// 	// $dtsearch[] = '';
-		// 	// $dtField	= '';
-		// }
 
 		if ($search) {
-			$cp2 = $this->Mod_crud->get_field_info('t_university_profile');
+			$un = $this->Mod_crud->get_field_info('t_university_profile');
 			$i = 0;
-			foreach ($cp2 as $key) {
+			foreach ($un as $key) {
 				$i++;
-				if ($i==1) {
-					$dt2[] = $key->name." LIKE '%".$search."%'";
-				}else{
-					$dt2[] = "OR ".$key->name." LIKE '%".$search."%'";
-				}
+				$dt2[] = $key->name.' LIKE "%'.$search.'%" ';
+				// if ($i==1) {
+				// 	$dt2[] = $key->name." LIKE '%".$search."%'";
+				// }else{
+				// 	$dt2[] = "OR ".$key->name." LIKE '%".$search."%'";
+				// }
 			}
-
-			$dtsearch['un'] = $this->Mod_crud->getData('result','*', 't_university_profile',null,null,null,null,null,null,$dt2);
+			$like = implode(" OR ", $dt2);
+			$dtsearch['un'] = $this->Mod_crud->getData('result','*', 't_university_profile',null,null,null,null,null,null,$like);
 			$dtField['un'] 	= $this->Mod_crud->get_field_info('t_university_profile');
-			$total3	 	= $this->Mod_crud->countData('result','*', 't_university_profile',null,null,null,null,null,null,$dt2);
+			$total3	 	= $this->Mod_crud->countData('result','*', 't_university_profile',null,null,null,null,null,null,$like);
 			if ($total3 > 0) {
 				$db['un'] 		= 'university';
 			}
 
 		}
-		// else{
-		// 	$db[] 		= FALSE;
-		// 	$total3		= 0;
-		// 	// $dtsearch[] = '';
-		// 	// $dtField	= '';
-		// }
-
-		//$kalimat = implode(" ", $dtsearch);
-		// $kalimat = json_encode($dtsearch);
-		// $highlight = highlightKeywords($kalimat, $search);
-		// echo $highlight;
-		// echo json_encode($db);
-		// echo $total1;
-		// echo $total2;
-		// echo $total3;
-		// echo $total =  $total1 + $total2 + $total3;
 
 		$data = array(
 			'_JS' => generate_js(array(

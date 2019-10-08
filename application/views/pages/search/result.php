@@ -68,16 +68,15 @@
 	<table class="table datatable-responsive-row-control table-hover">
 		<thead>
 			<tr style="font-size:12px;text-align:center;">
-				<th></th>
 				<th>No</th>
 				<?php foreach ($dField['cp'] as $key): 
 					$name = $key->name;
 					$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
 					$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
 				?>
-				<th width="20%"><?=ucwords($pass2)?></th>
+				<th><?=ucwords($pass2)?></th>
 				<?php endforeach ?>
-				<th width="20%">Action</th>
+				<th width="10%">Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -88,7 +87,6 @@
 					$no++;
 			?>
 			<tr class="text-size-mini">
-				<td></td>
 				<td><?=$no?>.</td>
 				<?php foreach ($dField['cp'] as $key2){
 					$name = $key2->name; ?>
@@ -97,7 +95,7 @@
 
 				<?php } ?>
 				<td>
-					<button data-placement="left" data-popup="tooltip" title="Open Profile" style="margin-bottom: 5px" type="button" class="btn btn-primary" onclick="location.href='<?=base_url('company/form/').$key->companyID ?>'"><i class="icon-eye"></i></button>
+					<a data-placement="left" data-popup="tooltip" title="Open Profile" style="margin: 10px" type="button" onclick="location.href='<?=base_url('company/form/').$key->companyID ?>'"><i class="icon-eye"></i></a>
 				</td>
 			</tr>
 
@@ -119,16 +117,15 @@
 	<table class="table datatable-responsive-row-control table-hover">
 		<thead>
 			<tr style="font-size:12px;text-align:center;">
-				<th></th>
 				<th>No</th>
 				<?php foreach ($dField['cm'] as $key): 
 					$name = $key->name;
 					$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
 					$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
 				?>
-				<th width="20%"><?=ucwords($pass2)?></th>
+				<th><?=ucwords($pass2)?></th>
 				<?php endforeach ?>
-				<th width="20%">Action</th>
+				<th width="10%">Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -139,7 +136,6 @@
 					$no++;
 			?>
 			<tr class="text-size-mini">
-				<td></td>
 				<td><?=$no?>.</td>
 				<?php foreach ($dField['cm'] as $key2){
 					$name = $key2->name;?>
@@ -148,7 +144,7 @@
 
 				<?php } ?>
 				<td>
-					<button data-placement="left" data-popup="tooltip" title="Open Profile" style="margin-bottom: 5px" type="button" class="btn btn-primary" onclick="location.href='<?=base_url('comunity/form/').$key->comunityID ?>'"><i class="icon-eye"></i></button>
+					<a data-placement="left" data-popup="tooltip" title="Open Profile" style="margin: 10px" type="button" onclick="location.href='<?=base_url('comunity/form/').$key->comunityID ?>'"><i class="icon-eye"></i></a>
 				</td>
 			</tr>
 
@@ -171,16 +167,15 @@
 	<table class="table datatable-responsive-row-control table-hover">
 		<thead>
 			<tr style="font-size:12px;text-align:center;">
-				<th></th>
 				<th>No</th>
 				<?php foreach ($dField['un'] as $key): 
 					$name = $key->name;
 					$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
 					$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
 				?>
-				<th width="20%"><?=ucwords($pass2)?></th>
+				<th><?=ucwords($pass2)?></th>
 				<?php endforeach ?>
-				<th width="20%">Action</th>
+				<th width="10%">Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -191,7 +186,6 @@
 					$no++;
 			?>
 			<tr class="text-size-mini">
-				<td></td>
 				<td><?=$no?>.</td>
 				<?php foreach ($dField['un'] as $key2){
 					$name = $key2->name;?>
@@ -200,7 +194,7 @@
 
 				<?php } ?>
 				<td>
-					<button data-placement="left" data-popup="tooltip" title="Open Profile" style="margin-bottom: 5px" type="button" class="btn btn-primary" onclick="location.href='<?=base_url('university/form/').$key->universityID ?>'"><i class="icon-eye"></i></button>
+					<a data-placement="left" data-popup="tooltip" title="Open Profile" style="margin: 10px" type="button" onclick="location.href='<?=base_url('university/form/').$key->universityID ?>'"><i class="icon-eye"></i></a>
 				</td>
 			</tr>
 

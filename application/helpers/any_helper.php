@@ -706,15 +706,27 @@ if (!function_exists('pencarian_highlight'))
 if (!function_exists('highlightKeywords'))
 {
 	function highlightKeywords($text, $keyword) {
-		$wordsAry = explode(" ", $keyword);
-		$wordsCount = count($wordsAry);
-
-		for($i=0;$i<$wordsCount;$i++) {
-			$highlighted_text = "<span style='font-weight:bold;'>$wordsAry[$i]</span>";
-			$text = str_ireplace($wordsAry[$i], $highlighted_text, $text);
+		$result = preg_replace('#'. preg_quote($keyword).'#i', '<b>\\0</b>', $text);
+		if ($result) {
+			return $result;
+		}else{
+			return false;
 		}
 
-		return $text;
 	}
 }
+// if (!function_exists('highlightKeywords'))
+// {
+// 	function highlightKeywords($text, $keyword) {
+// 		$wordsAry = explode(" ", $keyword);
+// 		$wordsCount = count($wordsAry);
+
+// 		for($i=0;$i<$wordsCount;$i++) {
+// 			$highlighted_text = "<span style='font-weight:bold;'>$wordsAry[$i]</span>";
+// 			$text = str_ireplace($wordsAry[$i], $highlighted_text, $text);
+// 		}
+
+// 		return $text;
+// 	}
+// }
 

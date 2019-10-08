@@ -31,8 +31,9 @@ class Company extends CommonDash {
 			),
 			'titleWeb' => "Company Profile",
 			'breadcrumb' => explode(',', 'Company,Company List'),
-			'dMaster'	=> $this->Mod_crud->getData('result','cp.companyProfileID, cp.companyID, cp.companyName, cp.sectorCompany, cp.EmailAddress', 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID')),
-			'dField'	=> $this->Mod_crud->get_field_info('t_company_profile'),
+			'dMaster'	=> $this->Mod_crud->getData('result','cp.companyProfileID,cp.companyID,cp.companyName,cp.sectorCompany,cp.EmailAddress', 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID')),
+			'dField'	=> $this->Mod_crud->qry_field_info('cp.companyProfileID,cp.companyID,cp.companyName,cp.sectorCompany,cp.EmailAddress', 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID')),
+			'Field'		=> $this->Mod_crud->get_field_info('t_company_profile'),
 			
 		);
 		$this->render('dashboard', 'pages/company/index', $data);
@@ -346,44 +347,56 @@ class Company extends CommonDash {
 	public function search()
 	{
 		$sector 	= $this->input->post('Sector');
-		$field 		= $this->input->post('Field');
 		$keyword 	= $this->input->post('Keyword');
+		$field1 		= $this->input->post('Field1');
+		$field2 		= $this->input->post('Field2');
+		$field3 		= $this->input->post('Field3');
+		$field4 		= $this->input->post('Field4');
 		$data = array();
 		if ($sector) {
-			$data[]	= 'cp.sectorCompany = "'.$sector.'"';		
+			$where = array('cp.sectorCompany = "'.$sector.'"');		
 		}
 
-		if ($field) {
-			$data[] = 'cp.'.$field.' LIKE "%'.$keyword.'%" ';
+		if ($field1) {
+			$like[] = 'cp.'.$field1.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field2) {
+			$like[] = 'cp.'.$field2.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field3) {
+			$like[] = 'cp.'.$field3.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field4) {
+			$like[] = 'cp.'.$field4.' LIKE "%'.$keyword.'%" ';
 		}
 
-		//echo ' WHERE '.implode(' AND ',$data);
+		echo ' WHERE '.implode(' OR ',$like);
 
-		$data = array(
-			'_JS' => generate_js(array(
-						"dashboards/js/plugins/ui/moment/moment.min.js",
-						"dashboards/js/plugins/tables/datatables/datatables.min.js",
-						"dashboards/js/plugins/tables/datatables/extensions/scroller.min.js",
-						"dashboards/js/plugins/forms/selects/select2.min.js",
-						"dashboards/js/pages/datatables_responsive.js",
-						"dashboards/js/plugins/forms/styling/switch.min.js",
-						"dashboards/js/plugins/forms/styling/switchery.min.js",
-						"dashboards/js/plugins/forms/styling/uniform.min.js",
-						"dashboards/js/plugins/pickers/pickadate/picker.js",
-						"dashboards/js/plugins/pickers/pickadate/picker.date.js",
-						"dashboards/js/plugins/forms/validation/validate.min.js",
-						"dashboards/js/pages/company-index-script.js",
-				)
-			),
-			'titleWeb' => "Company Profile",
-			'breadcrumb' => explode(',', 'Company,Company List'),
-			'dMaster'	=> $this->Mod_crud->getData('result','c.*,cp.*', 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$data),
-			'dField'	=> $this->Mod_crud->get_field_info('t_company_profile'),
-			'sector'	=> $sector,
-			'field'		=> $field,
-			'keyword'	=> $keyword,
-		);
-		$this->render('dashboard', 'pages/company/index', $data);
+		// $data = array(
+		// 	'_JS' => generate_js(array(
+		// 				"dashboards/js/plugins/ui/moment/moment.min.js",
+		// 				"dashboards/js/plugins/tables/datatables/datatables.min.js",
+		// 				"dashboards/js/plugins/tables/datatables/extensions/scroller.min.js",
+		// 				"dashboards/js/plugins/forms/selects/select2.min.js",
+		// 				"dashboards/js/pages/datatables_responsive.js",
+		// 				"dashboards/js/plugins/forms/styling/switch.min.js",
+		// 				"dashboards/js/plugins/forms/styling/switchery.min.js",
+		// 				"dashboards/js/plugins/forms/styling/uniform.min.js",
+		// 				"dashboards/js/plugins/pickers/pickadate/picker.js",
+		// 				"dashboards/js/plugins/pickers/pickadate/picker.date.js",
+		// 				"dashboards/js/plugins/forms/validation/validate.min.js",
+		// 				"dashboards/js/pages/company-index-script.js",
+		// 		)
+		// 	),
+		// 	'titleWeb' => "Company Profile",
+		// 	'breadcrumb' => explode(',', 'Company,Company List'),
+		// 	'dMaster'	=> $this->Mod_crud->getData('result','c.*,cp.*', 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$data),
+		// 	'dField'	=> $this->Mod_crud->get_field_info('t_company_profile'),
+		// 	'sector'	=> $sector,
+		// 	'field'		=> $field,
+		// 	'keyword'	=> $keyword,
+		// );
+		// $this->render('dashboard', 'pages/company/index', $data);
 	}
 
 
