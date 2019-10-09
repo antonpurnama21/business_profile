@@ -11,9 +11,18 @@
 		        	</ul>
 		    	</div>
 			</div>
-			<div class="ml-20">
-				<button type="button" class="btn btn-success" onclick="showModal('<?= base_url('company/modalAdd') ?>', '', 'add');"><i class="icon-add position-left"></i> Add</button>
-			</div>
+				<form class="form-horizontal" action="<?= base_url('report/printSearchCompany') ?>" method="POST">
+					<div class="col-md-10">
+						<input type="hidden" name="Field" value="<?= (isset($field)) ? $field : '' ?>" class="form-control">
+						<input type="hidden" name="Sector" value="<?= (isset($Sector)) ? $Sector : '' ?>" class="form-control">
+						<input type="hidden" name="Keyword" value="<?= (isset($keyword)) ? $keyword : '' ?>" class="form-control">
+					</div>
+					<div class="col-md-2">
+						<div class="pull-right">
+							<button type="submit" class="btn btn-success"><i class="icon-printer position-left"></i>  Print</button>
+						</div>
+					</div>
+				</form>
 
 			<table class="table datatable-responsive-row-control table-hover">
 				<thead>
@@ -40,7 +49,7 @@
 								<?php foreach ($dField as $key2){
 									$name = $key2->name; ?>
 
-								<td><?= $key->$name ?></td>
+								<td><?= highlightKeywords($key->$name, $keyword) ?></td>
 
 								<?php } ?>
 								<td class="text-center">
@@ -89,6 +98,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field1" id="Field1" class="select2">
+								<option value="<?= (isset($field1)) ? $field1 : '' ?>"><?= (isset($field1)) ? ucwords($field1) : '' ?></option>
 							</select>
 						</div>
 					</div>
@@ -96,6 +106,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field2" id="Field2" class="select2">
+								<option value="<?= (isset($field2)) ? $field2 : '' ?>"><?= (isset($field2)) ? ucwords($field2) : '' ?></option>
 							</select>
 						</div>
 					</div>
@@ -103,6 +114,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field3" id="Field3" class="select2">
+								<option value="<?= (isset($field3)) ? $field3 : '' ?>"><?= (isset($field3)) ? ucwords($field3) : '' ?></option>
 							</select>
 						</div>
 					</div>
@@ -110,6 +122,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field4" id="Field4" class="select2">
+								<option value="<?= (isset($field4)) ? $field4 : '' ?>"><?= (isset($field4)) ? ucwords($field4) : '' ?></option>
 							</select>
 						</div>
 					</div>
@@ -120,13 +133,14 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Sector" id="Sector" class="select2">
+								<option value="<?= (isset($Sector)) ? $Sector : '' ?>"><?= (isset($Sector)) ? $Sector : '' ?></option>
 							</select>
 						</div>
 					</div>
 					<div class="col-lg-8">
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-search4"></i></div>
-							<input type="text" name="Keyword" id="Keyword" class="form-control" required="required" required>
+							<input type="text" name="Keyword" id="Keyword" value="<?= (isset($keyword)) ? $keyword : '' ?>" class="form-control" required="required" required>
 						</div>
 					</div>
 				</div>

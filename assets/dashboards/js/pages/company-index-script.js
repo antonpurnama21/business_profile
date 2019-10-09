@@ -32,10 +32,46 @@ $(function() {
 
      $.ajax({
             type:'POST',
-            url: $('#getField').val(),
+            url: $('#getField1').val(),
             dataType:"JSON",
             success: function(data) {
-                $('#Field').select2({
+                $('#Field1').select2({
+                    placeholder: 'Pick Field',
+                    data: data
+                });
+            }
+        });
+
+     $.ajax({
+            type:'POST',
+            url: $('#getField2').val(),
+            dataType:"JSON",
+            success: function(data) {
+                $('#Field2').select2({
+                    placeholder: 'Pick Field',
+                    data: data
+                });
+            }
+        });
+
+     $.ajax({
+            type:'POST',
+            url: $('#getField3').val(),
+            dataType:"JSON",
+            success: function(data) {
+                $('#Field3').select2({
+                    placeholder: 'Pick Field',
+                    data: data
+                });
+            }
+        });
+
+     $.ajax({
+            type:'POST',
+            url: $('#getField4').val(),
+            dataType:"JSON",
+            success: function(data) {
+                $('#Field4').select2({
                     placeholder: 'Pick Field',
                     data: data
                 });
@@ -48,7 +84,7 @@ $(function() {
             dataType:"JSON",
             success: function(data) {
                 $('#Sector').select2({
-                    placeholder: 'Pick Sector',
+                    placeholder: 'Select Company Sector',
                     data: data
                 });
             }

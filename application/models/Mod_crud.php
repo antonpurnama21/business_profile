@@ -21,7 +21,7 @@ class Mod_crud extends CI_Model {
 
 		if ($like != null AND $where != null)
 			{	
-				$command .= $like;
+				$command .= ' AND '.$like;
 			}elseif ($like != null AND $where == null) {
 				$command .= ' WHERE '.$like;
 			}
@@ -71,7 +71,7 @@ class Mod_crud extends CI_Model {
 
 		if ($like != null AND $where != null)
 			{	
-				$command .= $like;
+				$command .= ' AND '.$like;
 			}elseif ($like != null AND $where == null) {
 				$command .= ' WHERE '.$like;
 			}
@@ -214,7 +214,7 @@ class Mod_crud extends CI_Model {
 
 		if ($like != null AND $where != null)
 			{	
-				$command .= $like;
+				$command .= ' AND '.$like;
 			}elseif ($like != null AND $where == null) {
 				$command .= ' WHERE '.$like;
 			}
