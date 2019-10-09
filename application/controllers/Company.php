@@ -59,14 +59,14 @@ class Company extends CommonDash {
 		    'dMaster'	 => $this->Mod_crud->getData('row', '*', 't_company_profile', null, null, null, array('companyID = "'.$id.'"')),
 		    'dField'	 => $this->Mod_crud->get_field_info('t_company_profile'),
 		    'breadcrumb' => explode(',', 'Company, Form Company Profile'),
-		    'actionForm' => base_url('company/saveFrom'),
+		    'actionForm' => base_url('company/save_form'),
 		    'buttonForm' => 'Save'
 		);
 
 		$this->render('dashboard', 'pages/company/formProfile', $data);
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function modalAdd(){
+	public function modal_Add(){
 		$data = array(
 				'modalTitle' => 'Add Company ',
 				'formAction' => base_url('company/save'),
@@ -107,7 +107,7 @@ class Company extends CommonDash {
 		}
 	}
 
-	public function saveFrom(){
+	public function save_form(){
 
 			$update = $this->Mod_crud->updateData('t_company', array(
 						'companyName'	=> $this->input->post('companyName'),
@@ -133,7 +133,7 @@ class Company extends CommonDash {
 
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function modalEdit(){
+	public function modal_edit(){
 		$ID = explode('~',$this->input->post('id'));
 		$data = array(
 				'modalTitle' => 'Edit '.$ID[1],
@@ -188,34 +188,9 @@ class Company extends CommonDash {
 		
 	}
 
-	public function getList()
-	{
-		$res = array();
-		$company = $this->Mod_crud->getData('result','*', 't_company');
-		if (!empty($company)) {
-			$no = 0;
-			foreach ($company as $key) {
-				$no++;
-				array_push($res, array(
-							'',
-							$no,
-							$key->companyID,
-							$key->companyName,
-							'
-							<a style="margin-bottom: 5px" class="btn btn-primary" href='.base_url('company/form/').$key->companyID.'><i class="icon-file-plus"></i> Add / Edit Profile</a>
-							<a style="margin-bottom: 5px" class="btn btn-primary" onclick="showModal(`'.base_url("company/modalEdit").'`, `'.$key->companyID.'~'.$key->companyName.'`, `editcompany`);"><i class="icon-quill4"></i> Edit</a>
-							<a style="margin-bottom: 5px" class="btn btn-primary" onclick="showModal(`'.base_url("company/modalProfile").'`, `'.$key->companyID.'~'.$key->companyName.'`, `modalprofile`);"><i class="icon-eye"></i> Show Profile</a>
-							<a style="margin-bottom: 5px" class="btn btn-danger" onclick="confirms(`Delete`,`Data '.$key->companyName.'?`,`'.base_url("company/delete").'`,`'.$key->companyID.'`)"><i class="icon-trash"></i> Delete</a>'
-							)
-				);
-			}
-		}
-		echo json_encode($res);
-	}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
-		public function formField($id=null)
+		public function form_field($id=null)
 	{	
 		$data = array(
 			'_JS' => generate_js(array(
@@ -234,15 +209,15 @@ class Company extends CommonDash {
 			),
 		    'titleWeb'   => "Add Field",
 		    'companyID'	 => $id,
-		    'breadcrumb' => explode(',', 'Company, Add Field'),
-		    'actionForm' => base_url('company/addField'),
+		    'breadcrumb' => explode(',', 'Company, Add Record Field'),
+		    'actionForm' => base_url('company/add_field'),
 		    'buttonForm' => 'Save'
 		);
 
 		$this->render('dashboard', 'pages/company/formField', $data);
 	}
 
-	public function getTypedata()
+	public function get_typedata()
 	{
 		$resp = array();
 		$data = $this->Mod_crud->getData('result', 'Type', 't_type_data');
@@ -256,7 +231,7 @@ class Company extends CommonDash {
 		echo json_encode($resp);
 	}
 
-	public function getSector()
+	public function get_sector()
 	{
 		$resp = array();
 		$data = $this->Mod_crud->getData('result', 'sectorCompany', 't_company_sector');
@@ -270,7 +245,7 @@ class Company extends CommonDash {
 		echo json_encode($resp);
 	}
 
-		public function getField()
+		public function get_field()
 	{
 		$resp = array();
 		$data = $this->Mod_crud->get_field_info('t_company_profile');
@@ -291,7 +266,7 @@ class Company extends CommonDash {
 		echo json_encode($resp);
 	}
 
-	public function addField()
+	public function add_field()
 	{
 		$field 	= $this->input->post('Fieldname');
 		$type 	= $this->input->post('Typedata');
@@ -317,7 +292,7 @@ class Company extends CommonDash {
      	}
 	}
 
-		public function deleteField()
+		public function delete_field()
 	{
 		$query 		= $this->Mod_crud->query('ALTER TABLE `t_company_profile` DROP `'.$this->input->post('id').'`');
 		if ($query){
@@ -333,7 +308,7 @@ class Company extends CommonDash {
 		
 	}
 
-	public function modalProfile()
+	public function modal_profile()
 	{
 		$ID = explode('~',$this->input->post('id'));
 		$data = array(
@@ -354,6 +329,7 @@ class Company extends CommonDash {
 		$field2 		= $this->input->post('Field2');
 		$field3 		= $this->input->post('Field3');
 		$field4 		= $this->input->post('Field4');
+		$field5 		= $this->input->post('Field5');
 
 		if ($sector) {
 			$where = array('cp.sectorCompany = "'.$sector.'"');		
@@ -362,20 +338,29 @@ class Company extends CommonDash {
 		}
 
 		if ($field1) {
+			$field[1] = $field1;
 			$select[] = 'cp.'.$field1;
 			$like[] = 'cp.'.$field1.' LIKE "%'.$keyword.'%" ';
 		}
 		if ($field2) {
+			$field[2] = $field2;
 			$select[] = 'cp.'.$field2;
 			$like[] = 'cp.'.$field2.' LIKE "%'.$keyword.'%" ';
 		}
 		if ($field3) {
+			$field[3] = $field3;
 			$select[] = 'cp.'.$field3;
 			$like[] = 'cp.'.$field3.' LIKE "%'.$keyword.'%" ';
 		}
 		if ($field4) {
+			$field[4] = $field4;
 			$select[] = 'cp.'.$field4;
 			$like[] = 'cp.'.$field4.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field5) {
+			$field[5] = $field5;
+			$select[] = 'cp.'.$field5;
+			$like[] = 'cp.'.$field5.' LIKE "%'.$keyword.'%" ';
 		}
 		$slct 	= implode(', ', $select);
 		$likes 	= implode(' OR ',$like);
@@ -399,13 +384,10 @@ class Company extends CommonDash {
 			'titleWeb'	=> "Company Profile",
 			'breadcrumb'=> explode(',', 'Company,Company List'),
 			'dMaster'	=> $this->Mod_crud->getData('result','cp.companyProfileID, cp.companyID, '.$slct, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$likes),
-			'dField'	=> $this->Mod_crud->qry_field_info('cp.companyProfileID, cp.companyID, '.$slct, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$likes),
-			'Sector'	=> $sector,
+			'dField'	=> $this->Mod_crud->qry_field_info('cp.companyProfileID, cp.companyID, '.$slct, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$likes),	
+			'sector'	=> $sector,
 			'keyword'	=> $keyword,
-			'field1'	=> $field1,
-			'field2'	=> $field2,
-			'field3'	=> $field3,
-			'field4'	=> $field4,
+			'field'		=> $field,
 		);
 		$this->render('dashboard', 'pages/company/result', $data);
 	}

@@ -20,7 +20,7 @@ class Report extends CI_Controller {
 
 	}
 
-	public function printCompany($id=null)
+	public function print_company($id=null)
 	{
 		$data = array(
 				'title' => name_company($id)." Profile",
@@ -30,7 +30,7 @@ class Report extends CI_Controller {
 		$this->load->view('pages/report/PrintProfile', $data);
 	}
 
-	public function printComunity($id=null)
+	public function print_comunity($id=null)
 	{
 		$data = array(
 				'title' => name_comunity($id)." Profile",
@@ -40,7 +40,7 @@ class Report extends CI_Controller {
 		$this->load->view('pages/report/PrintProfile', $data);
 	}
 
-	public function printUniversity($id=null)
+	public function print_university($id=null)
 	{
 		$data = array(
 				'title' => name_university($id)." Profile",
@@ -50,7 +50,7 @@ class Report extends CI_Controller {
 		$this->load->view('pages/report/PrintProfile', $data);
 	}
 
-	public function printResult()
+	public function print_result()
 	{
 		$dtbase = explode(",", $this->input->post('dtbase'));
 		$search	= $this->input->post('key');
@@ -73,16 +73,13 @@ class Report extends CI_Controller {
 			$i = 0;
 			foreach ($field as $key1) {
 				$i++;
-				if ($i==1) {
-					${'dt'. $dd}[] = $key1->name." LIKE '%".$search."%'";
-				}else{
-					${'dt'. $dd}[] = "OR ".$key1->name." LIKE '%".$search."%'";
-				}
+				${'dt'. $dd}[] = $key1->name." LIKE '%".$search."%'";
 			}
 			//echo json_encode(${'dt'.$dd});
-			$dtsearch[$dd] = $this->Mod_crud->getData('result','*', $database,null,null,null,null,null,null,${'dt'.$dd});
+			$likes 	= implode(' OR ',${'dt'.$dd});
+			$dtsearch[$dd] = $this->Mod_crud->getData('result','*', $database,null,null,null,null,null,null,$likes);
 			$dtfield[$dd] 	= $this->Mod_crud->get_field_info($database);
-			$total = $this->Mod_crud->countData('result','*', $database,null,null,null,null,null,null,${'dt'.$dd});
+			$total = $this->Mod_crud->countData('result','*', $database,null,null,null,null,null,null,$likes);
 			if ($total > 0) {
 				$db[$dd] 	= $key;
 			}
@@ -103,6 +100,51 @@ class Report extends CI_Controller {
 		// echo ' Keyword : '.$key;
 	}
 
+	public function print_result_company()
+	{
+		$field  = explode(',', $this->input->post('Field'));
+		$sector  = $this->input->post('Sector');
+		$keyword  = $this->input->post('Keyword');
+		
+		if ($sector) {
+			$where = 'WHERE cp.companySector = '.$sector;
+		}else{
+			$where = null;
+		}
+
+		if (!empty($field[0])) {
+			$select[] = 'cp.'.$field[0];
+			$like[] = 'cp.'.$field[0].' LIKE "%'.$keyword.'%" ';
+		}
+
+		if (!empty($field[1])) {
+			$select[] = 'cp.'.$field[1];
+			$like[] = 'cp.'.$field[1].' LIKE "%'.$keyword.'%" ';
+		}
+		if (!empty($field[2])) {
+			$select[] = 'cp.'.$field[2];
+			$like[] = 'cp.'.$field[2].' LIKE "%'.$keyword.'%" ';
+		}
+		if (!empty($field[3])) {
+			$select[] = 'cp.'.$field[3];
+			$like[] = 'cp.'.$field[3].' LIKE "%'.$keyword.'%" ';
+		}
+		if (!empty($field[4])) {
+			$select[] = 'cp.'.$field[4];
+			$like[] = 'cp.'.$field[4].' LIKE "%'.$keyword.'%" ';
+		}
+
+		
+		$lk = implode(' OR ', $like);
+		$sl = implode(', ', $select);
+		
+		$data = array(
+				'title' 	=> "Keyword : ".$keyword,
+				'dSearch' 	=> $this->Mod_crud->getData('result','cp.companyProfileID, cp.companyID, '.$sl, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$lk),
+				'dField'	=> $this->Mod_crud->qry_field_info('cp.companyProfileID, cp.companyID, '.$sl, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$lk),
+			);
+		$this->load->view('pages/report/PrintResultData', $data);
+	}
 
 }
 

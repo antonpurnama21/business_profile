@@ -11,7 +11,7 @@
 	</div>
 
 	<div class="panel-body">
-		<input type="hidden" name="getSector" id="getSector" value="<?= base_url('company/getSector') ?>">
+		<input type="hidden" name="getSector" id="getSector" value="<?= base_url('company/get_sector') ?>">
 		<form class="form-horizontal form-validate-jquery" action="<?= $actionForm ?>" method="POST" name="pengaduan-form" id="pengaduan-form">
 			<fieldset class="content-group">
 				
@@ -25,8 +25,8 @@
 
 				
 				<div>
-					<button type="button" class="btn btn-success" onclick="location.href='<?=base_url('company/formField/'.$dMaster->companyID) ?>'"></i> Add New Field Profile</button>
-					<button type="button" class="btn btn-success pull-right" onclick="location.href='<?=base_url('report/printCompany/'.$dMaster->companyID) ?>'"><i class="icon-printer position-left"></i> Print Profile</button>
+					<button type="button" class="btn btn-success" onclick="location.href='<?=base_url('company/form_field/'.$dMaster->companyID) ?>'"><i class="icon-add position-left"></i> Add New Record Field</button>
+					<button type="button" class="btn btn-success pull-right" onclick="location.href='<?=base_url('report/print_company/'.$dMaster->companyID) ?>'"><i class="icon-printer position-left"></i> Print Profile</button>
 				</div>
 				<br><br>
 
@@ -48,7 +48,7 @@
 							if ($name == 'companyProfileID' OR $name == 'companyID' OR $name == 'sectorCompany' OR $name == 'companyName') {
 								$btnDelete = '';
 							}else{
-							$btnDelete = '<a class="btn btn-danger" onclick="confirms(`Delete`,`Field '.ucwords($pass2).'?`,`'.base_url("company/deleteField").'`,`'.$key->name.'`)"><i class="icon-trash""></i></a>';
+							$btnDelete = '<a class="btn btn-danger" onclick="confirms(`Delete`,`Field '.ucwords($pass2).'?`,`'.base_url("company/delete_field").'`,`'.$key->name.'`)"><i class="icon-trash""></i></a>';
 							}
 
 						if ($key->type == 'date') {?>

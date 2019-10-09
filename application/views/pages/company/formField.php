@@ -11,8 +11,8 @@
 	</div>
 
 	<div class="panel-body">
-		<input type="hidden" name="getType" id="getType" value="<?= base_url('company/getTypedata') ?>">
-		<input type="hidden" name="getField" id="getField" value="<?= base_url('company/getField') ?>">
+		<input type="hidden" name="getType" id="getType" value="<?= base_url('company/get_typedata') ?>">
+		<input type="hidden" name="getField" id="getField" value="<?= base_url('company/get_field') ?>">
 		<form class="form-horizontal form-validate-jquery" action="<?= $actionForm ?>" method="POST" enctype="multipart/form-data" name="pengaduan-form" id="pengaduan-form">
 			<fieldset class="content-group">
 

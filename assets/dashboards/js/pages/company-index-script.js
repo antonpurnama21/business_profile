@@ -5,6 +5,7 @@ $(function() {
     $('.select2').select2();
     
     $('.datatable-responsive-row-control').DataTable({
+        "scrollX": true,
           responsive: {
               details: {
                   type: 'column',
@@ -72,6 +73,18 @@ $(function() {
             dataType:"JSON",
             success: function(data) {
                 $('#Field4').select2({
+                    placeholder: 'Pick Field',
+                    data: data
+                });
+            }
+        });
+
+     $.ajax({
+            type:'POST',
+            url: $('#getField5').val(),
+            dataType:"JSON",
+            success: function(data) {
+                $('#Field5').select2({
                     placeholder: 'Pick Field',
                     data: data
                 });

@@ -13,16 +13,18 @@ class Mod_crud extends CI_Model {
 					$command .= " LEFT JOIN $key ON $values ";
 				}
 			}
-			
-		if ($where != null)
+
+		if ($like != null AND $where != null)
+			{	
+				$command .= ' WHERE '.$like.' AND '.implode(' AND ',$where);
+			}
+
+		if ($where != null AND $like == null)
 			{	
 				$command .= ' WHERE '.implode(' AND ',$where);
 			}
 
-		if ($like != null AND $where != null)
-			{	
-				$command .= ' AND '.$like;
-			}elseif ($like != null AND $where == null) {
+		if ($like != null AND $where == null) {
 				$command .= ' WHERE '.$like;
 			}
 
@@ -64,15 +66,17 @@ class Mod_crud extends CI_Model {
 				}
 			}
 			
-		if ($where != null)
+		if ($like != null AND $where != null)
+			{	
+				$command .= ' WHERE '.$like.' AND '.implode(' AND ',$where);
+			}
+
+		if ($where != null AND $like == null)
 			{	
 				$command .= ' WHERE '.implode(' AND ',$where);
 			}
 
-		if ($like != null AND $where != null)
-			{	
-				$command .= ' AND '.$like;
-			}elseif ($like != null AND $where == null) {
+		if ($like != null AND $where == null) {
 				$command .= ' WHERE '.$like;
 			}
 
@@ -207,15 +211,17 @@ class Mod_crud extends CI_Model {
 				}
 			}
 			
-		if ($where != null)
+		if ($like != null AND $where != null)
+			{	
+				$command .= ' WHERE '.$like.' AND '.implode(' AND ',$where);
+			}
+
+		if ($where != null AND $like == null)
 			{	
 				$command .= ' WHERE '.implode(' AND ',$where);
 			}
 
-		if ($like != null AND $where != null)
-			{	
-				$command .= ' AND '.$like;
-			}elseif ($like != null AND $where == null) {
+		if ($like != null AND $where == null) {
 				$command .= ' WHERE '.$like;
 			}
 

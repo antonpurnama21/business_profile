@@ -13,7 +13,7 @@
 	<div class="panel-body">
 		<form class="form-horizontal" action="<?= base_url('search/searchData') ?>" method="POST" name="searchform" id="searchform">
 			<div class="col-md-10">
-				<input type="text" name="inputsearch" id="inputsearch" class="form-control" required="required" placeholder="Search" title="Search" required>
+				<input type="text" name="inputsearch" id="inputsearch" value="<?= isset($keyword) ? $keyword : ''?>" class="form-control" required="required" placeholder="Search" title="Search" required>
 			</div>
 			<div class="col-md-2">
 				<div class="pull-right">
@@ -46,7 +46,7 @@
 	<?php }else{ ?>
 	<div style="margin-left: 20px;"><p><i>Match Data Found (<?=$countotal?>) - "<b><?=$keyword?></b>"</i></p></div>
 	<?php } ?>
-		<form class="form-horizontal" action="<?= base_url('report/printResult') ?>" method="POST">
+		<form class="form-horizontal" action="<?= base_url('report/print_result') ?>" method="POST">
 			<div class="col-md-10">
 				<input type="hidden" name="dtbase" value="<?=implode(",",$db)?>" class="form-control">
 				<input type="hidden" name="key" value="<?=$keyword?>" class="form-control">

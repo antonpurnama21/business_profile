@@ -3,6 +3,7 @@ $(function() {
     $('.styled').uniform();
 
     $('.datatable-responsive-row-control').DataTable({
+      "scrollX": true,
           responsive: {
               details: {
                   type: 'column',

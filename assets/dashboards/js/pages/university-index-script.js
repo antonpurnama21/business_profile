@@ -4,6 +4,7 @@ $(function() {
     $('.select2').select2();
     
     $('.datatable-responsive-row-control').DataTable({
+        "scrollX": true,
           responsive: {
               details: {
                   type: 'column',
