@@ -11,36 +11,20 @@
 		        	</ul>
 		    	</div>
 			</div>
-			<?php if (getActiveFunc('university/index')): ?>
 			<div class="ml-20">
-				<button type="button" class="btn btn-success" onclick="showModal('<?= base_url('university/modalAdd') ?>', '', 'add');"><i class="icon-add position-left"></i> Add</button>
+				<button type="button" class="btn btn-success" onclick="showModal('<?= base_url('university/modal_add') ?>', '', 'add');"><i class="icon-add position-left"></i> Add</button>
 			</div>
-			<?php endif ?>
-			<?php if (getActiveFunc('university/search')): ?>
-				<form class="form-horizontal" action="<?= base_url('report/printSearchuniversity') ?>" method="POST">
-					<div class="col-md-10">
-						<input type="hidden" name="Field" value="<?= (isset($field)) ? $field : '' ?>" class="form-control">
-						<input type="hidden" name="Keyword" value="<?= (isset($keyword)) ? $keyword : '' ?>" class="form-control">
-					</div>
-					<div class="col-md-2">
-						<div class="pull-right">
-							<button type="submit" class="btn btn-success"><i class="icon-printer position-left"></i>  Print</button>
-						</div>
-					</div>
-				</form>
-			<?php endif ?>
 
 			<table class="table datatable-responsive-row-control table-hover">
 				<thead>
 					<tr style="font-size:12px;text-align:center;">
-						<th></th>
-						<th width="5%">No</th>
-						<?php foreach ($dField as $key): 
-							$name = $key->name;
-							$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
-							$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1); ?>
-						<th width="20%"><?=ucwords($pass2)?></th>
-						<?php endforeach ?>
+						<th>No</th>
+						<?php foreach ($dField as $key){ 
+								$name = $key->name;
+								$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
+								$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);?>
+						<th><?=ucwords($pass2); ?></th>
+						<?php } ?>
 						<th width="20%">Action</th>
 					</tr>
 				</thead>
@@ -52,7 +36,6 @@
 									$no++;
 						?>
 							<tr class="text-size-mini">
-								<td></td>
 								<td><?= $no ?>.</td>
 								<?php foreach ($dField as $key2){
 									$name = $key2->name; ?>
@@ -61,10 +44,11 @@
 
 								<?php } ?>
 								<td class="text-center">
-									<a data-placement="left" data-popup="tooltip" title="Add / Edit Profile" style="margin-bottom: 5px" class="btn btn-primary" href="<?=base_url('university/form/').$key->universityID ?>"><i class="icon-file-plus"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Edit" style="margin-bottom: 5px" class="btn btn-primary" onclick="showModal('<?=base_url("university/modalEdit") ?>','<?=$key->universityID.'~'.$key->universityName?>', 'edituniversity')"><i class="icon-quill4"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Show Modal Profile" style="margin-bottom: 5px" class="btn btn-primary" onclick="showModal('<?=base_url("university/modalProfile")?>', '<?=$key->universityID.'~'.$key->universityName?>', 'modalprofile')"><i class="icon-eye"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Delete Data" style="margin-bottom: 5px" class="btn btn-danger" onclick="confirms('Delete','Data `<?=$key->universityName?>`?','<?=base_url("university/delete")?>','<?=$key->universityID?>')"><i class="icon-trash"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Add / Edit Profile" style="margin: 5px" onclick="location.href='<?=base_url('university/form/'.$key->universityID) ?>'"><i class="icon-file-plus"></i></a>
+
+									<a data-placement="left" data-popup="tooltip" title="Edit" style="margin: 5px" onclick="showModal('<?=base_url("university/modal_edit") ?>','<?=$key->universityID.'~'.$key->universityName?>', 'edituniversity')"><i class="icon-quill4"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Show Modal Profile" style="margin: 5px" onclick="showModal('<?=base_url("university/modal_profile")?>', '<?=$key->universityID.'~'.$key->universityName?>', 'modalprofile')"><i class="icon-eye"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Delete Data" style="margin: 5px; color: red;" onclick="confirms('Delete','Data `<?=$key->universityName?>`?','<?=base_url("university/delete")?>','<?=$key->universityID?>')"><i class="icon-trash"></i></a>
 								</td>
 							</tr>
 						<?php
@@ -76,7 +60,6 @@
 		</div>
 	</div>
 </div>
-
 
 <div class="panel panel-flat">
 	<div class="panel-heading">
@@ -91,41 +74,79 @@
 	</div>
 
 	<div class="panel-body">
-		<input type="hidden" name="getField" id="getField" value="<?= base_url('university/getField') ?>">
+		<!-- mamanggil data -->
+		<input type="hidden" name="getMou" id="getMou" value="<?= base_url('university/get_mou') ?>">
+		<input type="hidden" name="getField1" id="getField1" value="<?= base_url('university/get_field') ?>">
+		<input type="hidden" name="getField2" id="getField2" value="<?= base_url('university/get_field') ?>">
+		<input type="hidden" name="getField3" id="getField3" value="<?= base_url('university/get_field') ?>">
+		<input type="hidden" name="getField4" id="getField4" value="<?= base_url('university/get_field') ?>">
+		<input type="hidden" name="getField5" id="getField5" value="<?= base_url('university/get_field') ?>">
+		<!-- memanggil data -->
 		<form class="form-horizontal form-validate-jquery" action="<?= base_url('university/search') ?>" method="POST" enctype="multipart/form-data" name="pengaduan-form" id="pengaduan-form">
 			<fieldset class="content-group">
-				
-				<div class="col-md-6">
-					<div class="form-group">
-						<label class="control-label col-lg-4">Field Table</label>
-						<div class="col-lg-8">
-							<div class="input-group">
-								<div class="input-group-addon"><i class="icon-direction"></i></div>
-								<select name="Field" id="Field" class="select2">
-									<option value="<?= (isset($field)) ? $field : '' ?>"><?= (isset($field)) ? $field : '' ?></option>
-								</select>
-							</div>
+				<div class="row">
+					<div class="col-lg-2">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-direction"></i></div>
+							<select name="Field1" id="Field1" class="select2">
+								<option value="<?= (isset($field1)) ? $field1 : '' ?>"><?= (isset($field1)) ? ucwords($field1) : '' ?></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-direction"></i></div>
+							<select name="Field2" id="Field2" class="select2">
+								<option value="<?= (isset($field2)) ? $field2 : '' ?>"><?= (isset($field2)) ? ucwords($field2) : '' ?></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-direction"></i></div>
+							<select name="Field3" id="Field3" class="select2">
+								<option value="<?= (isset($field3)) ? $field3 : '' ?>"><?= (isset($field3)) ? ucwords($field3) : '' ?></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-direction"></i></div>
+							<select name="Field4" id="Field4" class="select2">
+								<option value="<?= (isset($field4)) ? $field4 : '' ?>"><?= (isset($field4)) ? ucwords($field4) : '' ?></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-2">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-direction"></i></div>
+							<select name="Field5" id="Field5" class="select2">
+								<option value="<?= (isset($field5)) ? $field5 : '' ?>"><?= (isset($field5)) ? ucwords($field5) : '' ?></option>
+							</select>
 						</div>
 					</div>
 				</div>
-
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="control-label col-lg-2">Keyword</label>
-						<div class="col-lg-10">
-							<div class="input-group">
-								<div class="input-group-addon"><i class="icon-search4"></i></div>
-								<input type="text" name="Keyword" id="Keyword" value="<?= (isset($keyword)) ? $keyword : '' ?>" class="form-control" required="required" required>
-							</div>
+				<hr>
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-direction"></i></div>
+							<select name="Mou" id="Mou" class="select2">
+								<option value="<?= (isset($mou)) ? $mou : '' ?>"><?= (isset($mou)) ? ucwords($mou) : '' ?></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-7">
+						<div class="input-group">
+							<div class="input-group-addon"><i class="icon-search4"></i></div>
+							<input type="text" name="Keyword" id="Keyword" class="form-control" required="required" required>
 						</div>
 					</div>
 				</div>
-
-
 
 			</fieldset>
-			<div class="text-right">
-				<button type="reset" class="btn btn-default" id="reset">Reset <i class="icon-reload-alt position-right"></i></button>
+			<div class="text-left">
+				<button type="reset" class="btn btn-default" onclick="location.href='<?=base_url('university') ?>'" id="reset">Reset <i class="icon-reload-alt position-right"></i></button>
 				<button type="submit" class="btn btn-primary" id="submit-pengaduan" name="submit-pengaduan">Search <i class="icon-search4 position-right"></i></button>
 			</div>
 		</form>

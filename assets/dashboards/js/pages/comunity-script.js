@@ -33,6 +33,18 @@ $(function() {
             }
         });
 
+    $.ajax({
+            type:'POST',
+            url: $('#getType').val(),
+            dataType:"JSON",
+            success: function(data) {
+                $('#typeComunity').select2({
+                    placeholder: 'Pick Type Cominuties',
+                    data: data
+                });
+            }
+        });
+
         $.ajax({
             type:'POST',
             url: $('#getField').val(),

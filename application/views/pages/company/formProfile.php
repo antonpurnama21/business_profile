@@ -26,7 +26,7 @@
 				
 				<div>
 					<button type="button" class="btn btn-success" onclick="location.href='<?=base_url('company/form_field/'.$dMaster->companyID) ?>'"><i class="icon-add position-left"></i> Add New Record Field</button>
-					<button type="button" class="btn btn-success pull-right" onclick="location.href='<?=base_url('report/print_company/'.$dMaster->companyID) ?>'"><i class="icon-printer position-left"></i> Print Profile</button>
+					<a class="btn btn-success pull-right" target="_blank" href="<?=base_url('report/print_company/'.$dMaster->companyID) ?>"><i class="icon-printer position-left"></i> Print Profile</a>
 				</div>
 				<br><br>
 
@@ -87,19 +87,6 @@
 								</div>
 							</div>
 						<?php }else{?>
-							<?php if ($key->name == 'sector'){ ?>
-							<div class="form-group">
-								<label class="control-label col-lg-3">Select <?=ucwords($pass2)?></label>
-								<div class="col-lg-9">
-									<div class="input-group">
-										<div class="input-group-addon"><i class="icon-file-plus"></i></div>
-										<select name="<?=$name?>" id="<?=$name?>" class="select2" data-placeholder="Select <?=$pass2?>" title="Select <?=$pass2?>" required>
-											<option value="<?= (isset($dMaster->$name)) ? $dMaster->$name : '' ?>"><?= (isset($dMaster->$name)) ? name_sector($dMaster->$name) : '' ?></option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<?php }else{ ?>
 							<div class="form-group">
 								<label class="control-label col-lg-3"><?=ucwords($pass2)?></label>
 								<div class="col-lg-9">
@@ -110,7 +97,7 @@
 									<div class="pull-right"><?=$btnDelete?></div>
 								</div>
 							</div>
-						<?php }}?>
+						<?php } ?>
 					
 					<?php endforeach ?>
 

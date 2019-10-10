@@ -29,13 +29,72 @@ $(function() {
           order: [1, 'asc']
       });
 
+    $.ajax({
+            type:'POST',
+            url: $('#getType').val(),
+            dataType:"JSON",
+            success: function(data) {
+                $('#Type').select2({
+                    placeholder: 'Pick Type Cominuties',
+                    data: data
+                });
+            }
+        });
 
      $.ajax({
             type:'POST',
-            url: $('#getField').val(),
+            url: $('#getField1').val(),
             dataType:"JSON",
             success: function(data) {
-                $('#Field').select2({
+                $('#Field1').select2({
+                    placeholder: 'Pick Field',
+                    data: data
+                });
+            }
+        });
+
+     $.ajax({
+            type:'POST',
+            url: $('#getField2').val(),
+            dataType:"JSON",
+            success: function(data) {
+                $('#Field2').select2({
+                    placeholder: 'Pick Field',
+                    data: data
+                });
+            }
+        });
+
+     $.ajax({
+            type:'POST',
+            url: $('#getField3').val(),
+            dataType:"JSON",
+            success: function(data) {
+                $('#Field3').select2({
+                    placeholder: 'Pick Field',
+                    data: data
+                });
+            }
+        });
+
+     $.ajax({
+            type:'POST',
+            url: $('#getField4').val(),
+            dataType:"JSON",
+            success: function(data) {
+                $('#Field4').select2({
+                    placeholder: 'Pick Field',
+                    data: data
+                });
+            }
+        });
+
+     $.ajax({
+            type:'POST',
+            url: $('#getField5').val(),
+            dataType:"JSON",
+            success: function(data) {
+                $('#Field5').select2({
                     placeholder: 'Pick Field',
                     data: data
                 });

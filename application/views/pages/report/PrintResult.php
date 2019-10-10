@@ -62,7 +62,7 @@ class Coba extends FPDF {
 					$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
 					if ($key2->type == 'date') {
 
-					$pdf->Cell(150,10,$no.'. '.ucwords($pass2),0,0,'L');
+					$pdf->Cell(150,10,ucwords($pass2),0,0,'L');
 					$pdf->Cell(10,10,':',0,0,'L');
 					$pdf->Cell(150,10,date_format(date_create($key->$name), 'd F Y'),0,0,'L');
 					$pdf->Ln(15);
@@ -101,7 +101,7 @@ class Coba extends FPDF {
 					
 					if ($key2->type == 'date') {
 
-					$pdf->Cell(150,10,$no.'. '.ucwords($pass2),0,0,'L');
+					$pdf->Cell(150,10,ucwords($pass2),0,0,'L');
 					$pdf->Cell(10,10,':',0,0,'L');
 					$pdf->Cell(150,10,date_format(date_create($key->$name), 'd F Y'),0,0,'L');
 					$pdf->Ln(15);
@@ -143,7 +143,7 @@ class Coba extends FPDF {
 					
 					if ($key2->type == 'date') {
 
-					$pdf->Cell(150,10,$no.'. '.ucwords($pass2),0,0,'L');
+					$pdf->Cell(150,10,ucwords($pass2),0,0,'L');
 					$pdf->Cell(10,10,':',0,0,'L');
 					$pdf->Cell(150,10,date_format(date_create($key->$name), 'd F Y'),0,0,'L');
 					$pdf->Ln(15);

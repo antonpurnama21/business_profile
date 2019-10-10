@@ -11,6 +11,7 @@
 	</div>
 
 	<div class="panel-body">
+		<input type="hidden" name="getType" id="getType" value="<?= base_url('comunity/get_type') ?>">
 		<form class="form-horizontal form-validate-jquery" action="<?= $actionForm ?>" method="POST" name="pengaduan-form" id="pengaduan-form">
 			<fieldset class="content-group">
 				
@@ -24,8 +25,8 @@
 
 				
 				<div>
-					<button type="button" class="btn btn-success" onclick="location.href='<?=base_url('comunity/formField/'.$dMaster->comunityID) ?>'"></i> Add New Field Profile</button>
-					<button type="button" class="btn btn-success pull-right" onclick="location.href='<?=base_url('report/printComunity/'.$dMaster->comunityID) ?>'"><i class="icon-printer position-left"></i> Print Profile</button>
+					<button type="button" class="btn btn-success" onclick="location.href='<?=base_url('comunity/form_field/'.$dMaster->comunityID) ?>'"><i class="icon-add position-left"></i> Add New Record Field</button>
+					<button type="button" class="btn btn-success pull-right" onclick="location.href='<?=base_url('report/print_comunity/'.$dMaster->comunityID) ?>'"><i class="icon-printer position-left"></i> Print Profile</button>
 				</div>
 				<br><br>
 
@@ -44,10 +45,10 @@
 								$read = '';
 							}
 
-							if ($name == 'comunityProfileID' OR $name == 'comunityID' OR $name == 'comunityName') {
+							if ($name == 'comunityProfileID' OR $name == 'comunityID' OR $name == 'comunityName' OR $name == 'typeComunity') {
 								$btnDelete = '';
 							}else{
-							$btnDelete = '<a class="btn btn-danger" onclick="confirms(`Delete`,`Field '.ucwords($pass2).'?`,`'.base_url("comunity/deleteField").'`,`'.$key->name.'`)"><i class="icon-trash""></i></a>';
+							$btnDelete = '<a class="btn btn-danger" onclick="confirms(`Delete`,`Field '.ucwords($pass2).'?`,`'.base_url("comunity/delete_field").'`,`'.$key->name.'`)"><i class="icon-trash""></i></a>';
 							}
 
 						if ($key->type == 'date') {?>

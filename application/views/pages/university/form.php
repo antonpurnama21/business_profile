@@ -23,6 +23,22 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="form-group">
+								<label class="control-label col-lg-4">MOU ACCEPTED </label>
+								<div class="col-lg-8">
+									<label class="radio-inline">
+										<input type="radio" name="Mou" id="Mou" class="styled" value="YES" <?= ((isset($dMaster->mou)) && ($dMaster->mou == "YES")) ? 'checked' : '' ?> required="required">
+										YES
+									</label>
+
+									<label class="radio-inline">
+										<input type="radio" name="Mou" id="Mou" value="NO" <?= ((isset($dMaster->mou)) && ($dMaster->mou == "NO")) ? 'checked' : '' ?> class="styled">
+										NO
+									</label>
+								</div>
+							</div>
+						</div>
 					</fieldset>
 				</div>
 				<br />

@@ -17,7 +17,7 @@ class Comunity extends CommonDash {
 			'_JS' => generate_js(array(
 						"dashboards/js/plugins/ui/moment/moment.min.js",
 						"dashboards/js/plugins/tables/datatables/datatables.min.js",
-						"dashboards/js/plugins/tables/datatables/extensions/responsive.min.js",
+						"dashboards/js/plugins/tables/datatables/extensions/scroller.min.js",
 						"dashboards/js/plugins/forms/selects/select2.min.js",
 						"dashboards/js/pages/datatables_responsive.js",
 						"dashboards/js/plugins/forms/styling/switch.min.js",
@@ -31,8 +31,8 @@ class Comunity extends CommonDash {
 			),
 			'titleWeb' => "Comunity Profile",
 			'breadcrumb' => explode(',', 'Comunity,Comunity List'),
-			'dMaster'	=> $this->Mod_crud->getData('result','c.*,cp.*', 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID')),
-			'dField'	=> $this->Mod_crud->get_field_info('t_comunity_profile'),
+			'dMaster'	=> $this->Mod_crud->getData('result','cp.comunityProfileID, cp.comunityID, cp.comunityName, cp.EmailAddress, cp.typeComunity', 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID')),
+			'dField'	=> $this->Mod_crud->qry_field_info('cp.comunityProfileID, cp.comunityID, cp.comunityName, cp.EmailAddress, cp.typeComunity', 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID')),
 		);
 		$this->render('dashboard', 'pages/comunity/index', $data);
 	}
@@ -58,14 +58,14 @@ class Comunity extends CommonDash {
 		    'dMaster'	 => $this->Mod_crud->getData('row', '*', 't_comunity_profile', null, null, null, array('comunityID = "'.$id.'"')),
 		    'dField'	 => $this->Mod_crud->get_field_info('t_comunity_profile'),
 		    'breadcrumb' => explode(',', 'Comunity, Form Comunity Profile'),
-		    'actionForm' => base_url('comunity/saveFrom'),
+		    'actionForm' => base_url('comunity/save_form'),
 		    'buttonForm' => 'Save'
 		);
 
 		$this->render('dashboard', 'pages/comunity/formProfile', $data);
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function modalAdd(){
+	public function modal_add(){
 		$data = array(
 				'modalTitle' => 'Add Comunity ',
 				'formAction' => base_url('comunity/save'),
@@ -81,7 +81,7 @@ class Comunity extends CommonDash {
 		}else{
 
 			$id 		= $this->Mod_crud->autoNumber('comunityID','t_comunity','CM-',3);
-			$idprofile 	= $this->Mod_crud->autoNumber('comunityProfileID','t_comunity_profile','ID-'.$id,0);
+			$idprofile 	= $this->Mod_crud->autoNumber('comunityProfileID','t_comunity_profile','ID-'.$id.'-',2);
 
 			$save = $this->Mod_crud->insertData('t_comunity', array(
 						'comunityID' 		=> $id,
@@ -106,7 +106,7 @@ class Comunity extends CommonDash {
 		}
 	}
 
-	public function saveFrom(){
+	public function save_form(){
 
 			$update = $this->Mod_crud->updateData('t_comunity', array(
 						'comunityName'	=> $this->input->post('comunityName'),
@@ -132,7 +132,7 @@ class Comunity extends CommonDash {
 
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function modalEdit(){
+	public function modal_edit(){
 		$ID = explode('~',$this->input->post('id'));
 		$data = array(
 				'modalTitle' => 'Edit '.$ID[1],
@@ -187,34 +187,9 @@ class Comunity extends CommonDash {
 		
 	}
 
-	public function getList()
-	{
-		$res = array();
-		$comunity = $this->Mod_crud->getData('result','*', 't_comunity');
-		if (!empty($comunity)) {
-			$no = 0;
-			foreach ($comunity as $key) {
-				$no++;
-				array_push($res, array(
-							'',
-							$no,
-							$key->comunityID,
-							$key->comunityName,
-							'
-							<a style="margin-bottom: 5px" class="btn btn-primary" href='.base_url('comunity/form/').$key->comunityID.'><i class="icon-file-plus"></i> Add / Edit Profile</a>
-							<a style="margin-bottom: 5px" class="btn btn-primary" onclick="showModal(`'.base_url("comunity/modalEdit").'`, `'.$key->comunityID.'~'.$key->comunityName.'`, `editcomunity`);"><i class="icon-quill4"></i> Edit</a>
-							<a style="margin-bottom: 5px" class="btn btn-primary" onclick="showModal(`'.base_url("comunity/modalProfile").'`, `'.$key->comunityID.'~'.$key->comunityName.'`, `modalprofile`);"><i class="icon-eye"></i> Show Profile</a>
-							<a style="margin-bottom: 5px" class="btn btn-danger" onclick="confirms(`Delete`,`Data '.$key->comunityName.'?`,`'.base_url("comunity/delete").'`,`'.$key->comunityID.'`)"><i class="icon-trash"></i> Delete</a>'
-							)
-				);
-			}
-		}
-		echo json_encode($res);
-	}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
-		public function formField($id=null)
+		public function form_field($id=null)
 	{	
 		$data = array(
 			'_JS' => generate_js(array(
@@ -232,16 +207,16 @@ class Comunity extends CommonDash {
 				)
 			),
 		    'titleWeb'   => "Add Field",
-		    'comunityID'	 => $id,
+		    'comunityID' => $id,
 		    'breadcrumb' => explode(',', 'Comunity, Add Field'),
-		    'actionForm' => base_url('comunity/addField'),
+		    'actionForm' => base_url('comunity/add_field'),
 		    'buttonForm' => 'Save'
 		);
 
 		$this->render('dashboard', 'pages/comunity/formField', $data);
 	}
 
-	public function getTypedata()
+	public function get_typedata()
 	{
 		$resp = array();
 		$data = $this->Mod_crud->getData('result', 'Type', 't_type_data');
@@ -255,7 +230,21 @@ class Comunity extends CommonDash {
 		echo json_encode($resp);
 	}
 
-		public function getField()
+	public function get_type()
+	{
+		$resp = array();
+		$data = $this->Mod_crud->getData('result', 'typeComunity', 't_comunity_type');
+		if (!empty($data)) {
+			foreach ($data as $key) {
+				$mk['id'] = $key->typeComunity;
+				$mk['text'] = $key->typeComunity;
+				array_push($resp, $mk);
+			}
+		}
+		echo json_encode($resp);
+	}
+
+		public function get_field()
 	{
 		$resp = array();
 		$data = $this->Mod_crud->get_field_info('t_comunity_profile');
@@ -265,15 +254,19 @@ class Comunity extends CommonDash {
 				$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
 				$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
 
-				$mk['id'] = $key->name;
-				$mk['text'] = ucwords($pass2);
-				array_push($resp, $mk);
+				if ($name == 'comunityProfileID' OR $name == 'comunityID') {
+					
+				}else{
+					$mk['id'] = $key->name;
+					$mk['text'] = ucwords($pass2);
+					array_push($resp, $mk);
+				}
 			}
 		}
 		echo json_encode($resp);
 	}
 
-	public function addField()
+	public function add_field()
 	{
 		$field 	= $this->input->post('Fieldname');
 		$type 	= $this->input->post('Typedata');
@@ -299,7 +292,7 @@ class Comunity extends CommonDash {
      	}
 	}
 
-		public function deleteField()
+		public function delete_field()
 	{
 		$query 		= $this->Mod_crud->query('ALTER TABLE `t_comunity_profile` DROP `'.$this->input->post('id').'`');
 		if ($query){
@@ -315,7 +308,7 @@ class Comunity extends CommonDash {
 		
 	}
 
-		public function modalProfile()
+		public function modal_profile()
 	{
 		$ID = explode('~',$this->input->post('id'));
 		$data = array(
@@ -329,16 +322,47 @@ class Comunity extends CommonDash {
 
 		public function search()
 	{
-		$field 		= $this->input->post('Field');
-		$keyword 	= $this->input->post('Keyword');
-		$data = array();
+		$type 			= $this->input->post('Type');
+		$keyword 		= $this->input->post('Keyword');
+		$field1 		= $this->input->post('Field1');
+		$field2 		= $this->input->post('Field2');
+		$field3 		= $this->input->post('Field3');
+		$field4 		= $this->input->post('Field4');
+		$field5 		= $this->input->post('Field5');
 
-
-		if ($field) {
-			$data[] = 'cp.'.$field.' LIKE "%'.$keyword.'%" ';
+		if ($type) {
+			$where = array('cp.typeComunity = "'.$type.'"');		
+		}else{
+			$where = null;
 		}
 
-		//echo ' WHERE '.implode(' AND ',$data);
+		if ($field1) {
+			$field[1] = $field1;
+			$select[] = 'cp.'.$field1;
+			$like[] = 'cp.'.$field1.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field2) {
+			$field[2] = $field2;
+			$select[] = 'cp.'.$field2;
+			$like[] = 'cp.'.$field2.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field3) {
+			$field[3] = $field3;
+			$select[] = 'cp.'.$field3;
+			$like[] = 'cp.'.$field3.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field4) {
+			$field[4] = $field4;
+			$select[] = 'cp.'.$field4;
+			$like[] = 'cp.'.$field4.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field5) {
+			$field[5] = $field5;
+			$select[] = 'cp.'.$field5;
+			$like[] = 'cp.'.$field5.' LIKE "%'.$keyword.'%" ';
+		}
+		$slct 	= implode(', ', $select);
+		$likes 	= implode(' OR ',$like);
 
 		$data = array(
 			'_JS' => generate_js(array(
@@ -356,14 +380,15 @@ class Comunity extends CommonDash {
 						"dashboards/js/pages/comunity-index-script.js",
 				)
 			),
-			'titleWeb' => "comunity Profile",
+			'titleWeb' => "Comunity Profile",
 			'breadcrumb' => explode(',', 'Comunity,Comunity List'),
-			'dMaster'	=> $this->Mod_crud->getData('result','c.*,cp.*', 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID'),$data),
-			'dField'	=> $this->Mod_crud->get_field_info('t_comunity_profile'),
-			'field'		=> $field,
+			'dMaster'	=> $this->Mod_crud->getData('result','cp.comunityProfileID, cp.comunityID, '.$slct, 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID'),$where,null,null,$likes),
+			'dField'	=> $this->Mod_crud->qry_field_info('cp.comunityProfileID, cp.comunityID, '.$slct, 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID'),$where,null,null,$likes),	
+			'type'		=> $type,
 			'keyword'	=> $keyword,
+			'field'		=> $field,
 		);
-		$this->render('dashboard', 'pages/comunity/index', $data);
+		$this->render('dashboard', 'pages/comunity/result', $data);
 	}
 
 

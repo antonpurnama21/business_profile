@@ -17,7 +17,7 @@ class University extends CommonDash {
 			'_JS' => generate_js(array(
 						"dashboards/js/plugins/ui/moment/moment.min.js",
 						"dashboards/js/plugins/tables/datatables/datatables.min.js",
-						"dashboards/js/plugins/tables/datatables/extensions/responsive.min.js",
+						"dashboards/js/plugins/tables/datatables/extensions/scroller.min.js",
 						"dashboards/js/plugins/forms/selects/select2.min.js",
 						"dashboards/js/pages/datatables_responsive.js",
 						"dashboards/js/plugins/forms/styling/switch.min.js",
@@ -31,8 +31,8 @@ class University extends CommonDash {
 			),
 			'titleWeb' 	 => "University Profile",
 			'breadcrumb' => explode(',', 'University,University List'),
-			'dMaster'	=> $this->Mod_crud->getData('result','c.*,cp.*', 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID')),
-			'dField'	=> $this->Mod_crud->get_field_info('t_university_profile'),
+			'dMaster'	=> $this->Mod_crud->getData('result','cp.universityProfileID, cp.universityID, cp.universityName, cp.EmailAddress, cp.UniversityAddress, c.mou', 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID')),
+			'dField'	=> $this->Mod_crud->qry_field_info('cp.universityProfileID, cp.universityID, cp.universityName, cp.EmailAddress, cp.UniversityAddress, c.mou', 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID')),
 		);
 		$this->render('dashboard', 'pages/university/index', $data);
 	}
@@ -58,14 +58,14 @@ class University extends CommonDash {
 		    'dMaster'	 => $this->Mod_crud->getData('row', '*', 't_university_profile', null, null, null, array('universityID = "'.$id.'"')),
 		    'dField'	 => $this->Mod_crud->get_field_info('t_university_profile'),
 		    'breadcrumb' => explode(',', 'University, Form University Profile'),
-		    'actionForm' => base_url('university/saveFrom'),
+		    'actionForm' => base_url('university/save_form'),
 		    'buttonForm' => 'Save'
 		);
 
 		$this->render('dashboard', 'pages/university/formProfile', $data);
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function modalAdd(){
+	public function modal_add(){
 		$data = array(
 				'modalTitle' => 'Add university ',
 				'formAction' => base_url('university/save'),
@@ -81,11 +81,12 @@ class University extends CommonDash {
 		}else{
 
 			$id 		= $this->Mod_crud->autoNumber('universityID','t_university','MUV-',3);
-			$idprofile 	= $this->Mod_crud->autoNumber('universityProfileID','t_university_profile','ID-'.$id,0);
+			$idprofile 	= $this->Mod_crud->autoNumber('universityProfileID','t_university_profile','ID-'.$id.'-',2);
 
 			$save = $this->Mod_crud->insertData('t_university', array(
 						'universityID' 		=> $id,
 						'universityName' 	=> $this->input->post('Universityname'),
+						'mou'				=> $this->input->post('Mou'),
 						'createdBY'			=> $this->session->userdata('userlog')['sess_usrID'],
 						'createdTime' 		=> date('Y-m-d H:i:s')
            			)
@@ -106,7 +107,7 @@ class University extends CommonDash {
 		}
 	}
 
-	public function saveFrom(){
+	public function save_form(){
 
 			$update = $this->Mod_crud->updateData('t_university', array(
 						'universityName'=> $this->input->post('universityName'),
@@ -132,7 +133,7 @@ class University extends CommonDash {
 
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function modalEdit(){
+	public function modal_edit(){
 		$ID = explode('~',$this->input->post('id'));
 		$data = array(
 				'modalTitle' => 'Edit '.$ID[1],
@@ -151,6 +152,7 @@ class University extends CommonDash {
 
 			$update = $this->Mod_crud->updateData('t_university', array(
 						'universityName'=> $this->input->post('Universityname'),
+						'mou'			=> $this->input->post('Mou'),
 						'createdBY'		=> $this->session->userdata('userlog')['sess_usrID'],
 						'createdTime' 	=> date('Y-m-d H:i:s')
            			), array('universityID ' => $this->input->post('Universityid'))
@@ -187,34 +189,9 @@ class University extends CommonDash {
 		
 	}
 
-	public function getList()
-	{
-		$res = array();
-		$university = $this->Mod_crud->getData('result','*', 't_university');
-		if (!empty($university)) {
-			$no = 0;
-			foreach ($university as $key) {
-				$no++;
-				array_push($res, array(
-							'',
-							$no,
-							$key->universityID,
-							$key->universityName,
-							'
-							<a style="margin-bottom: 5px" class="btn btn-primary" href='.base_url('university/form/').$key->universityID.'><i class="icon-file-plus"></i> Add / Edit Profile</a>
-							<a style="margin-bottom: 5px" class="btn btn-primary" onclick="showModal(`'.base_url("university/modalEdit").'`, `'.$key->universityID.'~'.$key->universityName.'`, `edituniversity`);"><i class="icon-quill4"></i> Edit</a>
-							<a style="margin-bottom: 5px" class="btn btn-primary" onclick="showModal(`'.base_url("university/modalProfile").'`, `'.$key->universityID.'~'.$key->universityName.'`, `modalprofile`);"><i class="icon-eye"></i> Show Profile</a>
-							<a style="margin-bottom: 5px" class="btn btn-danger" onclick="confirms(`Delete`,`Data '.$key->universityName.'?`,`'.base_url("university/delete").'`,`'.$key->universityID.'`)"><i class="icon-trash"></i> Delete</a>'
-							)
-				);
-			}
-		}
-		echo json_encode($res);
-	}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
-		public function formField($id=null)
+		public function form_field($id=null)
 	{	
 		$data = array(
 			'_JS' => generate_js(array(
@@ -234,14 +211,14 @@ class University extends CommonDash {
 		    'titleWeb'   	=> "Add Field",
 		    'universityID'	=> $id,
 		    'breadcrumb' 	=> explode(',', 'university, Add Field'),
-		    'actionForm' 	=> base_url('university/addField'),
+		    'actionForm' 	=> base_url('university/add_field'),
 		    'buttonForm' 	=> 'Save'
 		);
 
 		$this->render('dashboard', 'pages/university/formField', $data);
 	}
 
-	public function getTypedata()
+	public function get_typedata()
 	{
 		$resp = array();
 		$data = $this->Mod_crud->getData('result', 'Type', 't_type_data');
@@ -255,7 +232,24 @@ class University extends CommonDash {
 		echo json_encode($resp);
 	}
 
-		public function getField()
+		public function get_mou()
+	{
+		$resp = array();
+		for ($i=0; $i < 2; $i++) { 
+			if ($i==1) {
+				$mk['id'] = 'YES';
+				$mk['text'] = 'YES';
+				array_push($resp, $mk);
+			}else{
+				$mk['id'] = 'NO';
+				$mk['text'] = 'NO';
+				array_push($resp, $mk);
+			}
+		}		
+		echo json_encode($resp);
+	}
+
+		public function get_field()
 	{
 		$resp = array();
 		$data = $this->Mod_crud->get_field_info('t_university_profile');
@@ -264,16 +258,19 @@ class University extends CommonDash {
 				$name = $key->name;
 				$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
 				$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
-
-				$mk['id'] = $key->name;
-				$mk['text'] = ucwords($pass2);
-				array_push($resp, $mk);
+				if ($name == 'universityProfileID' OR $name == 'universityID') {
+					
+				}else{
+					$mk['id'] = $key->name;
+					$mk['text'] = ucwords($pass2);
+					array_push($resp, $mk);
+				}
 			}
 		}
 		echo json_encode($resp);
 	}
 
-	public function addField()
+	public function add_field()
 	{
 		$field 	= $this->input->post('Fieldname');
 		$type 	= $this->input->post('Typedata');
@@ -299,7 +296,7 @@ class University extends CommonDash {
      	}
 	}
 
-		public function deleteField()
+		public function delete_field()
 	{
 		$query 		= $this->Mod_crud->query('ALTER TABLE `t_university_profile` DROP `'.$this->input->post('id').'`');
 		if ($query){
@@ -315,7 +312,7 @@ class University extends CommonDash {
 		
 	}
 
-	public function modalProfile()
+	public function modal_profile()
 	{
 		$ID = explode('~',$this->input->post('id'));
 		$data = array(
@@ -329,16 +326,47 @@ class University extends CommonDash {
 
 	public function search()
 	{
-		$field 		= $this->input->post('Field');
-		$keyword 	= $this->input->post('Keyword');
+		$mou 			= $this->input->post('Mou');
+		$keyword 		= $this->input->post('Keyword');
+		$field1 		= $this->input->post('Field1');
+		$field2 		= $this->input->post('Field2');
+		$field3 		= $this->input->post('Field3');
+		$field4 		= $this->input->post('Field4');
+		$field5 		= $this->input->post('Field5');
 
-		$data = array();
-
-		if ($field) {
-			$data[] = 'cp.'.$field.' LIKE "%'.$keyword.'%" ';
+		if ($mou) {
+			$where = array('c.mou = "'.$mou.'"');		
+		}else{
+			$where = null;
 		}
 
-		//echo ' WHERE '.implode(' AND ',$data);
+		if ($field1) {
+			$field[1] = $field1;
+			$select[] = 'cp.'.$field1;
+			$like[] = 'cp.'.$field1.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field2) {
+			$field[2] = $field2;
+			$select[] = 'cp.'.$field2;
+			$like[] = 'cp.'.$field2.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field3) {
+			$field[3] = $field3;
+			$select[] = 'cp.'.$field3;
+			$like[] = 'cp.'.$field3.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field4) {
+			$field[4] = $field4;
+			$select[] = 'cp.'.$field4;
+			$like[] = 'cp.'.$field4.' LIKE "%'.$keyword.'%" ';
+		}
+		if ($field5) {
+			$field[5] = $field5;
+			$select[] = 'cp.'.$field5;
+			$like[] = 'cp.'.$field5.' LIKE "%'.$keyword.'%" ';
+		}
+		$slct 	= implode(', ', $select);
+		$likes 	= implode(' OR ',$like);
 
 		$data = array(
 			'_JS' => generate_js(array(
@@ -356,14 +384,15 @@ class University extends CommonDash {
 						"dashboards/js/pages/university-index-script.js",
 				)
 			),
-			'titleWeb' => "University Profile",
-			'breadcrumb' => explode(',', 'University,University List'),
-			'dMaster'	=> $this->Mod_crud->getData('result','c.*,cp.*', 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID'),$data),
-			'dField'	=> $this->Mod_crud->get_field_info('t_university_profile'),
-			'field'		=> $field,
+			'titleWeb'	=> "University Profile",
+			'breadcrumb'=> explode(',', 'university,university List'),
+			'dMaster'	=> $this->Mod_crud->getData('result','cp.universityProfileID, cp.universityID, '.$slct, 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID'),$where,null,null,$likes),
+			'dField'	=> $this->Mod_crud->qry_field_info('cp.universityProfileID, cp.universityID, '.$slct, 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID'),$where,null,null,$likes),	
+			'mou'		=> $mou,
 			'keyword'	=> $keyword,
+			'field'		=> $field,
 		);
-		$this->render('dashboard', 'pages/university/index', $data);
+		$this->render('dashboard', 'pages/university/result', $data);
 	}
 
 

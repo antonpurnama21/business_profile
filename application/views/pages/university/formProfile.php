@@ -24,8 +24,8 @@
 
 				
 				<div>
-					<button type="button" class="btn btn-success" onclick="location.href='<?=base_url('university/formField/'.$dMaster->universityID) ?>'"></i> Add New Field Profile</button>
-					<button type="button" class="btn btn-success pull-right" onclick="location.href='<?=base_url('report/printUniversity/'.$dMaster->universityID) ?>'"><i class="icon-printer position-left"></i> Print Profile</button>
+					<button type="button" class="btn btn-success" onclick="location.href='<?=base_url('university/form_field/'.$dMaster->universityID) ?>'"><i class="icon-add position-left"></i> Add New Record Field</button>
+					<a class="btn btn-success pull-right" target="_blank" href="<?=base_url('report/print_university/'.$dMaster->universityID) ?>"><i class="icon-printer position-left"></i> Print Profile</a>
 				</div>
 				<br><br>
 

@@ -11,10 +11,10 @@
 		        	</ul>
 		    	</div>
 			</div>
-				<form class="form-horizontal" target="_blank" action="<?= base_url('report/print_result_company') ?>" method="POST">
+				<form class="form-horizontal" target="_blank" action="<?= base_url('report/print_result_university') ?>" method="POST">
 					<div class="col-md-10">
 						<input type="hidden" name="Field" 	value="<?= implode(',', $field)?>" class="form-control">
-						<input type="hidden" name="Sector" 	value="<?= $sector?>" class="form-control">
+						<input type="hidden" name="Mou" 	value="<?= $mou?>" class="form-control">
 						<input type="hidden" name="Keyword" value="<?= $keyword?>" class="form-control">
 					</div>
 					<div class="col-md-2">
@@ -53,11 +53,11 @@
 
 								<?php } ?>
 								<td class="text-center">
-									<a data-placement="left" data-popup="tooltip" title="Add / Edit Profile" style="margin: 10px" onclick="location.href='<?=base_url('company/form/'.$key->companyID) ?>'"><i class="icon-file-plus"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Add / Edit Profile" style="margin: 10px" onclick="location.href='<?=base_url('university/form/'.$key->universityID) ?>'"><i class="icon-file-plus"></i></a>
 
-									<a data-placement="left" data-popup="tooltip" title="Edit" style="margin: 10px" onclick="showModal('<?=base_url("company/modal_edit") ?>','<?=$key->companyID.'~'.$key->companyName?>', 'editcompany')"><i class="icon-quill4"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Show Modal Profile" style="margin: 10px" onclick="showModal('<?=base_url("company/modal_profile")?>', '<?=$key->companyID.'~'.$key->companyName?>', 'modalprofile')"><i class="icon-eye"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Delete Data" style="margin: 10px; color: red;" onclick="confirms('Delete','Data `<?=$key->companyName?>`?','<?=base_url("company/delete")?>','<?=$key->companyID?>')"><i class="icon-trash"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Edit" style="margin: 10px" onclick="showModal('<?=base_url("university/modal_edit") ?>','<?=$key->universityID.'~'.$key->universityName?>', 'edituniversity')"><i class="icon-quill4"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Show Modal Profile" style="margin: 10px" onclick="showModal('<?=base_url("university/modal_profile")?>', '<?=$key->universityID.'~'.$key->universityName?>', 'modalprofile')"><i class="icon-eye"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Delete Data" style="margin: 10px; color: red;" onclick="confirms('Delete','Data `<?=$key->universityName?>`?','<?=base_url("university/delete")?>','<?=$key->universityID?>')"><i class="icon-trash"></i></a>
 								</td>
 							</tr>
 						<?php
@@ -85,14 +85,14 @@
 
 	<div class="panel-body">
 		<!-- mamanggil data -->
-		<input type="hidden" name="getSector" id="getSector" value="<?= base_url('company/get_sector') ?>">
-		<input type="hidden" name="getField1" id="getField1" value="<?= base_url('company/get_field') ?>">
-		<input type="hidden" name="getField2" id="getField2" value="<?= base_url('company/get_field') ?>">
-		<input type="hidden" name="getField3" id="getField3" value="<?= base_url('company/get_field') ?>">
-		<input type="hidden" name="getField4" id="getField4" value="<?= base_url('company/get_field') ?>">
-		<input type="hidden" name="getField5" id="getField5" value="<?= base_url('company/get_field') ?>">
+		<input type="hidden" name="getMou" id="getMou" value="<?= base_url('university/get_mou') ?>">
+		<input type="hidden" name="getField1" id="getField1" value="<?= base_url('university/get_field') ?>">
+		<input type="hidden" name="getField2" id="getField2" value="<?= base_url('university/get_field') ?>">
+		<input type="hidden" name="getField3" id="getField3" value="<?= base_url('university/get_field') ?>">
+		<input type="hidden" name="getField4" id="getField4" value="<?= base_url('university/get_field') ?>">
+		<input type="hidden" name="getField5" id="getField5" value="<?= base_url('university/get_field') ?>">
 		<!-- memanggil data -->
-		<form class="form-horizontal form-validate-jquery" action="<?= base_url('company/search') ?>" method="POST" enctype="multipart/form-data" name="pengaduan-form" id="pengaduan-form">
+		<form class="form-horizontal form-validate-jquery" action="<?= base_url('university/search') ?>" method="POST" enctype="multipart/form-data" name="pengaduan-form" id="pengaduan-form">
 			<fieldset class="content-group">
 				<div class="row">
 					<div class="col-lg-2">
@@ -141,8 +141,8 @@
 					<div class="col-lg-3">
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
-							<select name="Sector" id="Sector" class="select2">
-								<option value="<?= (isset($sector)) ? $sector : '' ?>"><?= (isset($sector)) ? $sector : '' ?></option>
+							<select name="Mou" id="Mou" class="select2">
+								<option value="<?= (isset($mou)) ? $mou : '' ?>"><?= (isset($mou)) ? $mou : '' ?></option>
 							</select>
 						</div>
 					</div>
@@ -156,7 +156,7 @@
 
 			</fieldset>
 			<div class="text-left">
-				<button type="reset" class="btn btn-default" onclick="location.href='<?=base_url('company') ?>'" id="reset">Reset <i class="icon-reload-alt position-right"></i></button>
+				<button type="reset" class="btn btn-default" onclick="location.href='<?=base_url('university') ?>'" id="reset">Reset <i class="icon-reload-alt position-right"></i></button>
 				<button type="submit" class="btn btn-primary" id="submit-pengaduan" name="submit-pengaduan">Search <i class="icon-search4 position-right"></i></button>
 			</div>
 		</form>

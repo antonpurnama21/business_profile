@@ -82,7 +82,7 @@ class Company extends CommonDash {
 		}else{
 
 			$id 		= $this->Mod_crud->autoNumber('companyID','t_company','CP-',3);
-			$idprofile 	= $this->Mod_crud->autoNumber('companyProfileID','t_company_profile','ID-'.$id,0);
+			$idprofile 	= $this->Mod_crud->autoNumber('companyProfileID','t_company_profile','ID-'.$id.'-',2);
 
 			$save = $this->Mod_crud->insertData('t_company', array(
 						'companyID' 		=> $id,

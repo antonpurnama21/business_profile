@@ -107,7 +107,8 @@ class Report extends CI_Controller {
 		$keyword  = $this->input->post('Keyword');
 		
 		if ($sector) {
-			$where = 'WHERE cp.companySector = '.$sector;
+			$where = array('cp.sectorCompany = "'.$sector.'"');
+
 		}else{
 			$where = null;
 		}
@@ -139,9 +140,106 @@ class Report extends CI_Controller {
 		$sl = implode(', ', $select);
 		
 		$data = array(
-				'title' 	=> "Keyword : ".$keyword,
+				'title' 	=> "Company Profile",
 				'dSearch' 	=> $this->Mod_crud->getData('result','cp.companyProfileID, cp.companyID, '.$sl, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$lk),
 				'dField'	=> $this->Mod_crud->qry_field_info('cp.companyProfileID, cp.companyID, '.$sl, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$lk),
+				'keyword' 	=> $keyword,
+			);
+		$this->load->view('pages/report/PrintResultData', $data);
+	}
+
+		public function print_result_university()
+	{
+		$field  = explode(',', $this->input->post('Field'));
+		$mou 	= $this->input->post('Mou');
+		$keyword  = $this->input->post('Keyword');
+		
+		if ($mou) {
+			$where = array('c.mou = "'.$mou.'"');
+
+		}else{
+			$where = null;
+		}
+
+		if (!empty($field[0])) {
+			$select[] = 'cp.'.$field[0];
+			$like[] = 'cp.'.$field[0].' LIKE "%'.$keyword.'%" ';
+		}
+
+		if (!empty($field[1])) {
+			$select[] = 'cp.'.$field[1];
+			$like[] = 'cp.'.$field[1].' LIKE "%'.$keyword.'%" ';
+		}
+		if (!empty($field[2])) {
+			$select[] = 'cp.'.$field[2];
+			$like[] = 'cp.'.$field[2].' LIKE "%'.$keyword.'%" ';
+		}
+		if (!empty($field[3])) {
+			$select[] = 'cp.'.$field[3];
+			$like[] = 'cp.'.$field[3].' LIKE "%'.$keyword.'%" ';
+		}
+		if (!empty($field[4])) {
+			$select[] = 'cp.'.$field[4];
+			$like[] = 'cp.'.$field[4].' LIKE "%'.$keyword.'%" ';
+		}
+
+		
+		$lk = implode(' OR ', $like);
+		$sl = implode(', ', $select);
+		
+		$data = array(
+				'title' 	=> "University Profile",
+				'dSearch' 	=> $this->Mod_crud->getData('result','cp.universityProfileID, cp.universityID, '.$sl, 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID'),$where,null,null,$lk),
+				'dField'	=> $this->Mod_crud->qry_field_info('cp.universityProfileID, cp.universityID, '.$sl, 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID'),$where,null,null,$lk),
+				'keyword' 	=> $keyword,
+			);
+		$this->load->view('pages/report/PrintResultData', $data);
+	}
+
+			public function print_result_comunity()
+	{
+		$field  = explode(',', $this->input->post('Field'));
+		$type 	= $this->input->post('Type');
+		$keyword  = $this->input->post('Keyword');
+		
+		if ($type) {
+			$where = array('cp.typeComunity = "'.$type.'"');
+
+		}else{
+			$where = null;
+		}
+
+		if (!empty($field[0])) {
+			$select[] = 'cp.'.$field[0];
+			$like[] = 'cp.'.$field[0].' LIKE "%'.$keyword.'%" ';
+		}
+
+		if (!empty($field[1])) {
+			$select[] = 'cp.'.$field[1];
+			$like[] = 'cp.'.$field[1].' LIKE "%'.$keyword.'%" ';
+		}
+		if (!empty($field[2])) {
+			$select[] = 'cp.'.$field[2];
+			$like[] = 'cp.'.$field[2].' LIKE "%'.$keyword.'%" ';
+		}
+		if (!empty($field[3])) {
+			$select[] = 'cp.'.$field[3];
+			$like[] = 'cp.'.$field[3].' LIKE "%'.$keyword.'%" ';
+		}
+		if (!empty($field[4])) {
+			$select[] = 'cp.'.$field[4];
+			$like[] = 'cp.'.$field[4].' LIKE "%'.$keyword.'%" ';
+		}
+
+		
+		$lk = implode(' OR ', $like);
+		$sl = implode(', ', $select);
+		
+		$data = array(
+				'title' 	=> "Comunity Profile",
+				'dSearch' 	=> $this->Mod_crud->getData('result','cp.comunityProfileID, cp.comunityID, '.$sl, 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID'),$where,null,null,$lk),
+				'dField'	=> $this->Mod_crud->qry_field_info('cp.comunityProfileID, cp.comunityID, '.$sl, 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID'),$where,null,null,$lk),
+				'keyword' 	=> $keyword,
 			);
 		$this->load->view('pages/report/PrintResultData', $data);
 	}
