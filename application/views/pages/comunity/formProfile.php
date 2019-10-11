@@ -48,7 +48,7 @@
 							if ($name == 'comunityProfileID' OR $name == 'comunityID' OR $name == 'comunityName' OR $name == 'typeComunity') {
 								$btnDelete = '';
 							}else{
-							$btnDelete = '<a class="btn btn-danger" onclick="confirms(`Delete`,`Field '.ucwords($pass2).'?`,`'.base_url("comunity/delete_field").'`,`'.$key->name.'`)"><i class="icon-trash""></i></a>';
+							$btnDelete = '<a style="color: red;" onclick="confirms(`Delete`,`Field '.ucwords($pass2).'?`,`'.base_url("comunity/delete_field").'`,`'.$key->name.'`)"><i class="icon-trash""></i></a>';
 							}
 
 						if ($key->type == 'date') {?>

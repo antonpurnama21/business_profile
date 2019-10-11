@@ -47,7 +47,7 @@
 							if ($name == 'universityProfileID' OR $name == 'universityID' OR $name == 'universityName') {
 								$btnDelete = '';
 							}else{
-							$btnDelete = '<a class="btn btn-danger" onclick="confirms(`Delete`,`Field '.ucwords($pass2).'?`,`'.base_url("university/deleteField").'`,`'.$key->name.'`)"><i class="icon-trash""></i></a>';
+							$btnDelete = '<a style="color: red;" onclick="confirms(`Delete`,`Field '.ucwords($pass2).'?`,`'.base_url("university/deleteField").'`,`'.$key->name.'`)"><i class="icon-trash""></i></a>';
 							}
 
 						if ($key->type == 'date') {?>

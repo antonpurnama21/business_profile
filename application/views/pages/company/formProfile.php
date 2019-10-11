@@ -48,7 +48,7 @@
 							if ($name == 'companyProfileID' OR $name == 'companyID' OR $name == 'sectorCompany' OR $name == 'companyName') {
 								$btnDelete = '';
 							}else{
-							$btnDelete = '<a class="btn btn-danger" onclick="confirms(`Delete`,`Field '.ucwords($pass2).'?`,`'.base_url("company/delete_field").'`,`'.$key->name.'`)"><i class="icon-trash""></i></a>';
+							$btnDelete = '<a style="color: red;" onclick="confirms(`Delete`,`Field '.ucwords($pass2).'?`,`'.base_url("company/delete_field").'`,`'.$key->name.'`)"><i class="icon-trash""></i></a>';
 							}
 
 						if ($key->type == 'date') {?>

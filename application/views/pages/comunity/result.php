@@ -34,7 +34,7 @@
 								$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);?>
 						<th><?=ucwords($pass2); ?></th>
 						<?php } ?>
-						<th width="20%">Action</th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -53,11 +53,11 @@
 
 								<?php } ?>
 								<td class="text-center">
-									<a data-placement="left" data-popup="tooltip" title="Add / Edit Profile" style="margin: 5px" onclick="location.href='<?=base_url('comunity/form/'.$key->comunityID) ?>'"><i class="icon-file-plus"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Add / Edit Profile" style="margin: 10px" onclick="location.href='<?=base_url('comunity/form/'.$key->comunityID) ?>'"><i class="icon-file-plus"></i></a>
 
-									<a data-placement="left" data-popup="tooltip" title="Edit" style="margin: 5px" onclick="showModal('<?=base_url("comunity/modal_edit") ?>','<?=$key->comunityID.'~'.$key->comunityName?>', 'editcomunity')"><i class="icon-quill4"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Show Modal Profile" style="margin: 5px" onclick="showModal('<?=base_url("comunity/modal_profile")?>', '<?=$key->comunityID.'~'.$key->comunityName?>', 'modalprofile')"><i class="icon-eye"></i></a>
-									<a data-placement="left" data-popup="tooltip" title="Delete Data" style="margin: 5px; color: red;" onclick="confirms('Delete','Data `<?=$key->comunityName?>`?','<?=base_url("comunity/delete")?>','<?=$key->comunityID?>')"><i class="icon-trash"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Edit" style="margin: 10px" onclick="showModal('<?=base_url("comunity/modal_edit") ?>','<?=$key->comunityID.'~'.$key->comunityName?>', 'editcomunity')"><i class="icon-quill4"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Show Modal Profile" style="margin: 10px" onclick="showModal('<?=base_url("comunity/modal_profile")?>', '<?=$key->comunityID.'~'.$key->comunityName?>', 'modalprofile')"><i class="icon-eye"></i></a>
+									<a data-placement="left" data-popup="tooltip" title="Delete Data" style="margin: 10px; color: red;" onclick="confirms('Delete','Data `<?=$key->comunityName?>`?','<?=base_url("comunity/delete")?>','<?=$key->comunityID?>')"><i class="icon-trash"></i></a>
 								</td>
 							</tr>
 						<?php

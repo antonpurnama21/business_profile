@@ -34,7 +34,7 @@
 								$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);?>
 						<th><?=ucwords($pass2); ?></th>
 						<?php } ?>
-						<th width="20%">Action</th>
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
