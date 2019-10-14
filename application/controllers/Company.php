@@ -254,7 +254,7 @@ class Company extends CommonDash {
 				$name = $key->name;
 				$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
 				$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
-				if ($name == 'companyProfileID' OR $name == 'companyID') {
+				if ($name == 'companyProfileID' OR $name == 'companyID' OR $name == 'companyName') {
 					
 				}else{
 				$mk['id'] 	= $key->name;
@@ -363,7 +363,7 @@ class Company extends CommonDash {
 			$like[] = 'cp.'.$field5.' LIKE "%'.$keyword.'%" ';
 		}
 		$slct 	= implode(', ', $select);
-		$likes 	= implode(' OR ',$like);
+		$likes 	= 'cp.companyName LIKE "%'.$keyword.'%" OR '.implode(' OR ',$like);
 
 		$data = array(
 			'_JS' => generate_js(array(
@@ -383,8 +383,8 @@ class Company extends CommonDash {
 			),
 			'titleWeb'	=> "Company Profile",
 			'breadcrumb'=> explode(',', 'Company,Company List'),
-			'dMaster'	=> $this->Mod_crud->getData('result','cp.companyProfileID, cp.companyID, '.$slct, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$likes),
-			'dField'	=> $this->Mod_crud->qry_field_info('cp.companyProfileID, cp.companyID, '.$slct, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$likes),	
+			'dMaster'	=> $this->Mod_crud->getData('result','cp.companyProfileID, cp.companyID, cp.companyName, '.$slct, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$likes),
+			'dField'	=> $this->Mod_crud->qry_field_info('cp.companyProfileID, cp.companyID, cp.companyName, '.$slct, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$likes),	
 			'sector'	=> $sector,
 			'keyword'	=> $keyword,
 			'field'		=> $field,

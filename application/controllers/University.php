@@ -258,7 +258,7 @@ class University extends CommonDash {
 				$name = $key->name;
 				$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
 				$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
-				if ($name == 'universityProfileID' OR $name == 'universityID') {
+				if ($name == 'universityProfileID' OR $name == 'universityID' OR $name == 'universityName') {
 					
 				}else{
 					$mk['id'] = $key->name;
@@ -366,7 +366,7 @@ class University extends CommonDash {
 			$like[] = 'cp.'.$field5.' LIKE "%'.$keyword.'%" ';
 		}
 		$slct 	= implode(', ', $select);
-		$likes 	= implode(' OR ',$like);
+		$likes 	= 'cp.universityName LIKE "%'.$keyword.'%" OR '.implode(' OR ',$like);
 
 		$data = array(
 			'_JS' => generate_js(array(
@@ -386,8 +386,8 @@ class University extends CommonDash {
 			),
 			'titleWeb'	=> "University Profile",
 			'breadcrumb'=> explode(',', 'university,university List'),
-			'dMaster'	=> $this->Mod_crud->getData('result','cp.universityProfileID, cp.universityID, '.$slct, 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID'),$where,null,null,$likes),
-			'dField'	=> $this->Mod_crud->qry_field_info('cp.universityProfileID, cp.universityID, '.$slct, 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID'),$where,null,null,$likes),	
+			'dMaster'	=> $this->Mod_crud->getData('result','cp.universityProfileID, cp.universityID, cp.universityName, '.$slct, 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID'),$where,null,null,$likes),
+			'dField'	=> $this->Mod_crud->qry_field_info('cp.universityProfileID, cp.universityID, cp.universityName, '.$slct, 't_university c',null,null,array('t_university_profile cp'=>'c.universityID = cp.universityID'),$where,null,null,$likes),	
 			'mou'		=> $mou,
 			'keyword'	=> $keyword,
 			'field'		=> $field,

@@ -254,7 +254,7 @@ class Comunity extends CommonDash {
 				$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
 				$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
 
-				if ($name == 'comunityProfileID' OR $name == 'comunityID') {
+				if ($name == 'comunityProfileID' OR $name == 'comunityID' OR $name == 'comunityName') {
 					
 				}else{
 					$mk['id'] = $key->name;
@@ -362,7 +362,7 @@ class Comunity extends CommonDash {
 			$like[] = 'cp.'.$field5.' LIKE "%'.$keyword.'%" ';
 		}
 		$slct 	= implode(', ', $select);
-		$likes 	= implode(' OR ',$like);
+		$likes 	= 'cp.comunityName LIKE "%'.$keyword.'%" OR '.implode(' OR ',$like);
 
 		$data = array(
 			'_JS' => generate_js(array(
@@ -382,8 +382,8 @@ class Comunity extends CommonDash {
 			),
 			'titleWeb' => "Comunity Profile",
 			'breadcrumb' => explode(',', 'Comunity,Comunity List'),
-			'dMaster'	=> $this->Mod_crud->getData('result','cp.comunityProfileID, cp.comunityID, '.$slct, 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID'),$where,null,null,$likes),
-			'dField'	=> $this->Mod_crud->qry_field_info('cp.comunityProfileID, cp.comunityID, '.$slct, 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID'),$where,null,null,$likes),	
+			'dMaster'	=> $this->Mod_crud->getData('result','cp.comunityProfileID, cp.comunityID, cp.comunityName, '.$slct, 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID'),$where,null,null,$likes),
+			'dField'	=> $this->Mod_crud->qry_field_info('cp.comunityProfileID, cp.comunityID, cp.comunityName, '.$slct, 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID'),$where,null,null,$likes),	
 			'type'		=> $type,
 			'keyword'	=> $keyword,
 			'field'		=> $field,
