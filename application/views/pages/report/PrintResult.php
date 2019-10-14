@@ -60,24 +60,29 @@ class Coba extends FPDF {
 					$name = $key2->name;
 					$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
 					$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
+					if(empty($key->$name)){
+						$show = 'NULL';
+					}else{
+						$show = $key->$name;
+					}
 					if ($key2->type == 'date') {
 
 					$pdf->Cell(150,10,ucwords($pass2),0,0,'L');
 					$pdf->Cell(10,10,':',0,0,'L');
-					$pdf->Cell(150,10,date_format(date_create($key->$name), 'd F Y'),0,0,'L');
+					$pdf->Cell(150,10,date_format(date_create($show), 'd F Y'),0,0,'L');
 					$pdf->Ln(15);
 					
 					}elseif ($key2->type == 'text') {
 					
 					$pdf->Cell(150,10,ucwords($pass2),0,0,'L');
 					$pdf->Cell(10,10,': ',0,0,'L');
-					$pdf->MultiCell(220,15,strip_tags($key->$name),0,'L');
+					$pdf->MultiCell(220,15,strip_tags($show),0,'L');
 					$pdf->Ln(15);
 					
 					}else{
 					$pdf->Cell(150,10,ucwords($pass2),0,0,'L');
 					$pdf->Cell(10,10,':',0,0,'L');
-					$pdf->Cell(150,10,$key->$name,0,0,'L');
+					$pdf->Cell(150,10,$show,0,0,'L');
 					$pdf->Ln(15);
 					}
 				}

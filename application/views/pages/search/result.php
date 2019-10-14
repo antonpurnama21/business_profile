@@ -20,20 +20,6 @@
 					<button type="submit" name="searchbtn" id="searchbtn" class="btn btn-primary"><i class="icon-search4 position-left"></i>  Search</button>
 				</div>
 			</div>
-			<!-- <div style="margin-top: 10px" class="col-md-12">
-				<label class="checkbox-inline">
-					<input type="checkbox" class="styled" name="cekcompany" value="company">
-					Company
-				</label>
-				<label class="checkbox-inline">
-					<input type="checkbox" class="styled" name="cekcomunity" value="coumunity">
-					Comunity
-				</label>
-				<label class="checkbox-inline">
-					<input type="checkbox" class="styled" name="cekcampus" value="campus">
-					University
-				</label>
-			</div> -->
 		</form>
 
 	</div>
@@ -46,6 +32,8 @@
 	<?php }else{ ?>
 	<div style="margin-left: 20px;"><p><i>Match Data Found (<?=$countotal?>) - "<b><?=$keyword?></b>"</i></p></div>
 	<?php } ?>
+
+	<?php if (!empty($db)): ?>
 		<form class="form-horizontal" action="<?= base_url('report/print_result') ?>" method="POST">
 			<div class="col-md-10">
 				<input type="hidden" name="dtbase" value="<?=implode(",",$db)?>" class="form-control">
@@ -57,6 +45,8 @@
 				</div>
 			</div>
 		</form>
+	<?php endif ?>
+	
 	<br><br>
 
 	<?php 
@@ -89,9 +79,14 @@
 			<tr class="text-size-mini">
 				<td><?=$no?>.</td>
 				<?php foreach ($dField['cp'] as $key2){
-					$name = $key2->name; ?>
+					$name = $key2->name; 
+					if(empty($key->$name)){
+						$show = 'NULL';
+					}else{
+						$show = $key->$name;
+					}?>
 
-				<td><?= highlightKeywords($key->$name, $keyword) ?></td>
+				<td><?= highlightKeywords($show, $keyword) ?></td>
 
 				<?php } ?>
 				<td>
@@ -138,9 +133,14 @@
 			<tr class="text-size-mini">
 				<td><?=$no?>.</td>
 				<?php foreach ($dField['cm'] as $key2){
-					$name = $key2->name;?>
+					$name = $key2->name;
+					if(empty($key->$name)){
+						$show = 'NULL';
+					}else{
+						$show = $key->$name;
+					}?>
 
-				<td><?= highlightKeywords($key->$name, $keyword) ?></td>
+				<td><?= highlightKeywords($show, $keyword) ?></td>
 
 				<?php } ?>
 				<td>
@@ -188,9 +188,14 @@
 			<tr class="text-size-mini">
 				<td><?=$no?>.</td>
 				<?php foreach ($dField['un'] as $key2){
-					$name = $key2->name;?>
+					$name = $key2->name;
+					if(empty($key->$name)){
+						$show = 'NULL';
+					}else{
+						$show = $key->$name;
+					}?>
 
-				<td><?= highlightKeywords($key->$name, $keyword) ?></td>
+				<td><?= highlightKeywords($show, $keyword) ?></td>
 
 				<?php } ?>
 				<td>

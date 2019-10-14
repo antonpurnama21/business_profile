@@ -231,6 +231,20 @@ class Company extends CommonDash {
 		echo json_encode($resp);
 	}
 
+	// public function get_enum()
+	// {
+	// 	$resp = array();
+	// 	$data = $this->db->value_enum('t_company_profile','EnumTest');
+	// 	if (!empty($data)) {
+	// 		foreach ($data as $key) {
+	// 			$mk['id'] = $key;
+	// 			$mk['text'] = $key;
+	// 			array_push($resp, $mk);
+	// 		}
+	// 	}
+	// 	echo json_encode($resp);
+	// }
+
 	public function get_sector()
 	{
 		$resp = array();
@@ -338,32 +352,52 @@ class Company extends CommonDash {
 		}
 
 		if ($field1) {
-			$field[1] = $field1;
+			$field['f1'] = $field1;
 			$select[] = 'cp.'.$field1;
 			$like[] = 'cp.'.$field1.' LIKE "%'.$keyword.'%" ';
 		}
 		if ($field2) {
-			$field[2] = $field2;
+			$field['f2'] = $field2;
 			$select[] = 'cp.'.$field2;
 			$like[] = 'cp.'.$field2.' LIKE "%'.$keyword.'%" ';
 		}
 		if ($field3) {
-			$field[3] = $field3;
+			$field['f3'] = $field3;
 			$select[] = 'cp.'.$field3;
 			$like[] = 'cp.'.$field3.' LIKE "%'.$keyword.'%" ';
 		}
 		if ($field4) {
-			$field[4] = $field4;
+			$field['f4'] = $field4;
 			$select[] = 'cp.'.$field4;
 			$like[] = 'cp.'.$field4.' LIKE "%'.$keyword.'%" ';
 		}
 		if ($field5) {
-			$field[5] = $field5;
+			$field['f5'] = $field5;
 			$select[] = 'cp.'.$field5;
 			$like[] = 'cp.'.$field5.' LIKE "%'.$keyword.'%" ';
 		}
-		$slct 	= implode(', ', $select);
-		$likes 	= 'cp.companyName LIKE "%'.$keyword.'%" OR '.implode(' OR ',$like);
+
+		if (empty($select) OR empty($like)) {
+			$fl = $this->Mod_crud->get_field_info('t_company_profile');
+			$i = 0; 
+			foreach ($fl as $key) {
+				$i++;
+				$name = $key->name;
+				if ($name == 'companyProfileID' OR $name == 'companyID' OR $name == 'companyName') {
+					
+				}else{
+				$lk[] = $name.' LIKE "%'.$keyword.'%" ';
+				$sl[] = 'cp.'.$name;
+				$field[] = $name;
+				}
+			}
+			$slct 	= implode(', ', $sl);
+			$likes 	= 'cp.companyName LIKE "%'.$keyword.'%" OR '.implode(' OR ',$lk);
+		}else{
+			$slct 	= implode(', ', $select);
+			$likes 	= 'cp.companyName LIKE "%'.$keyword.'%" OR '.implode(' OR ',$like);
+			$field = $field;
+		}
 
 		$data = array(
 			'_JS' => generate_js(array(

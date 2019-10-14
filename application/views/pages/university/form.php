@@ -6,6 +6,7 @@
 				<h5 class="modal-title"><i class="icon-menu7"></i> &nbsp;<?= $modalTitle ?></h5>
 			</div>
 
+			<input type="hidden" name="getFormMou" id="getFormMou" value="<?= base_url('university/get_FormMou') ?>">
 			<form class="form-horizontal form-validate-jquery" action="<?= $formAction ?>" method="post" enctype="multipart/form-data" name="dokumen-form" id="dokumen-form">
 				<div class="modal-body">
 					<fieldset class="content-group">
@@ -23,6 +24,7 @@
 								</div>
 							</div>
 						</div>
+
 						<div class="row">
 							<div class="form-group">
 								<label class="control-label col-lg-4">MOU ACCEPTED </label>

@@ -38,9 +38,15 @@
 							<tr class="text-size-mini">
 								<td><?= $no ?>.</td>
 								<?php foreach ($dField as $key2){
-									$name = $key2->name; ?>
+									$name = $key2->name; 
+									if(empty($key->$name)){
+										$show = 'NULL';
+									}else{
+										$show = $key->$name;
+									}
+									?>
 
-								<td><?= $key->$name ?></td>
+								<td><?= $show ?></td>
 
 								<?php } ?>
 								<td class="text-center">
@@ -89,7 +95,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field1" id="Field1" class="select2">
-								<option value="<?= (isset($field1)) ? $field1 : '' ?>"><?= (isset($field1)) ? ucwords($field1) : '' ?></option>
+								<option value=""></option>
 							</select>
 						</div>
 					</div>
@@ -97,7 +103,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field2" id="Field2" class="select2">
-								<option value="<?= (isset($field2)) ? $field2 : '' ?>"><?= (isset($field2)) ? ucwords($field2) : '' ?></option>
+								<option value=""></option>
 							</select>
 						</div>
 					</div>
@@ -105,7 +111,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field3" id="Field3" class="select2">
-								<option value="<?= (isset($field3)) ? $field3 : '' ?>"><?= (isset($field3)) ? ucwords($field3) : '' ?></option>
+								<option value=""></option>
 							</select>
 						</div>
 					</div>
@@ -113,7 +119,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field4" id="Field4" class="select2">
-								<option value="<?= (isset($field4)) ? $field4 : '' ?>"><?= (isset($field4)) ? ucwords($field4) : '' ?></option>
+								<option value=""></option>
 							</select>
 						</div>
 					</div>
@@ -121,7 +127,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field5" id="Field5" class="select2">
-								<option value="<?= (isset($field5)) ? $field5 : '' ?>"><?= (isset($field5)) ? ucwords($field5) : '' ?></option>
+								<option value=""></option>
 							</select>
 						</div>
 					</div>
@@ -132,7 +138,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Mou" id="Mou" class="select2">
-								<option value="<?= (isset($mou)) ? $mou : '' ?>"><?= (isset($mou)) ? ucwords($mou) : '' ?></option>
+								<option value=""></option>
 							</select>
 						</div>
 					</div>

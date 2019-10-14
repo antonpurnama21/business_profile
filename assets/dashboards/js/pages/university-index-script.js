@@ -29,7 +29,6 @@ $(function() {
           order: [1, 'asc']
       });
 
-
      $.ajax({
             type:'POST',
             url: $('#getField1').val(),

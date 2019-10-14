@@ -11,6 +11,7 @@
 		        	</ul>
 		    	</div>
 			</div>
+			<?php if (!empty($dMaster)): ?>
 				<form class="form-horizontal" target="_blank" action="<?= base_url('report/print_result_university') ?>" method="POST">
 					<div class="col-md-10">
 						<input type="hidden" name="Field" 	value="<?= implode(',', $field)?>" class="form-control">
@@ -23,6 +24,7 @@
 						</div>
 					</div>
 				</form>
+			<?php endif ?>
 
 			<table class="table datatable-responsive-row-control table-hover">
 				<thead>
@@ -47,9 +49,14 @@
 							<tr class="text-size-mini">
 								<td><?= $no ?>.</td>
 								<?php foreach ($dField as $key2){
-									$name = $key2->name; ?>
+									$name = $key2->name; 
+									if(empty($key->$name)){
+										$show = 'NULL';
+									}else{
+										$show = $key->$name;
+									}?>
 
-								<td><?= highlightKeywords($key->$name, $keyword) ?></td>
+								<td><?= highlightKeywords($show, $keyword) ?></td>
 
 								<?php } ?>
 								<td class="text-center">
@@ -99,7 +106,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field1" id="Field1" class="select2">
-								<option value="<?= (isset($field[1])) ? $field[1] : '' ?>"><?= (isset($field[1])) ? ucwords($field[1]) : '' ?></option>
+								<option value="<?= (isset($field['f1'])) ? $field['f1'] : '' ?>"><?= (isset($field['f1'])) ? ucwords($field['f1']) : '' ?></option>
 							</select>
 						</div>
 					</div>
@@ -107,7 +114,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field2" id="Field2" class="select2">
-								<option value="<?= (isset($field[2])) ? $field[2] : '' ?>"><?= (isset($field[2])) ? ucwords($field[2]) : '' ?></option>
+								<option value="<?= (isset($field['f2'])) ? $field['f2'] : '' ?>"><?= (isset($field['f2'])) ? ucwords($field['f2']) : '' ?></option>
 							</select>
 						</div>
 					</div>
@@ -115,7 +122,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field3" id="Field3" class="select2">
-								<option value="<?= (isset($field[3])) ? $field[3] : '' ?>"><?= (isset($field[3])) ? ucwords($field[3]) : '' ?></option>
+								<option value="<?= (isset($field['f3'])) ? $field['f3'] : '' ?>"><?= (isset($field['f3'])) ? ucwords($field['f3']) : '' ?></option>
 							</select>
 						</div>
 					</div>
@@ -123,7 +130,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field4" id="Field4" class="select2">
-								<option value="<?= (isset($field[4])) ? $field[4] : '' ?>"><?= (isset($field[4])) ? ucwords($field[4]) : '' ?></option>
+								<option value="<?= (isset($field['f4'])) ? $field['f4'] : '' ?>"><?= (isset($field['f4'])) ? ucwords($field['f4']) : '' ?></option>
 							</select>
 						</div>
 					</div>
@@ -131,7 +138,7 @@
 						<div class="input-group">
 							<div class="input-group-addon"><i class="icon-direction"></i></div>
 							<select name="Field5" id="Field5" class="select2">
-								<option value="<?= (isset($field[5])) ? $field[5] : '' ?>"><?= (isset($field[5])) ? ucwords($field[5]) : '' ?></option>
+								<option value="<?= (isset($field['f5'])) ? $field['f5'] : '' ?>"><?= (isset($field['f5'])) ? ucwords($field['f5']) : '' ?></option>
 							</select>
 						</div>
 					</div>

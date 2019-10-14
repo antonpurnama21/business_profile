@@ -1983,4 +1983,26 @@ abstract class CI_DB_driver {
 	{
 	}
 
+	/*
+	 *  Awal blok fungsi mengambil nilai dari tipe data enum
+	 */
+
+	function value_enum( $table , $field )
+    {
+        $query = "SHOW COLUMNS FROM ".$table." LIKE '$field'";
+        $row = $this->query("SHOW COLUMNS FROM ".$table." LIKE '$field'")->row()->Type;
+        $regex = "/'(.*?)'/";
+        preg_match_all( $regex , $row, $enum_array );
+        $enum_fields = $enum_array[1];
+        foreach ($enum_fields as $key=>$value)
+        {
+            $enums[$value] = $value; 
+        }
+        return $enums;
+	}
+	/*
+	 *  Akhir blok fungsi mengambil nilai dari tipe data enum
+	 */
+
+
 }

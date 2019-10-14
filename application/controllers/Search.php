@@ -41,7 +41,6 @@ class Search extends CommonDash {
 	{	
 		$search 	= $this->input->post('inputsearch');
 		$db 		= array();
-		$dt = array();
 
 		if ($search) {
 			$cp = $this->Mod_crud->get_field_info('t_company_profile');
@@ -50,11 +49,6 @@ class Search extends CommonDash {
 				$i++;
 
 				$dt[] = $key->name.' LIKE "%'.$search.'%" ';
-				// if ($i==1) {
-				// 	$dt[] = $key->name." LIKE '%".$search."%'";
-				// }else{
-				// 	$dt[] = " OR ".$key->name." LIKE '%".$search."%'";
-				// }
 			}
 			$like = implode(" OR ", $dt);
 			$dtsearch['cp'] = $this->Mod_crud->getData('result','*', 't_company_profile',null,null,null,null,null,null,$like);
@@ -71,11 +65,6 @@ class Search extends CommonDash {
 			foreach ($cm as $key) {
 				$i++;
 				$dt1[] = $key->name.' LIKE "%'.$search.'%" ';
-				// if ($i==1) {
-				// 	$dt1[] = $key->name." LIKE '%".$search."%'";
-				// }else{
-				// 	$dt1[] = "OR ".$key->name." LIKE '%".$search."%'";
-				// }
 			}
 			$like = implode(" OR ", $dt1);
 			$dtsearch['cm'] = $this->Mod_crud->getData('result','*', 't_comunity_profile',null,null,null,null,null,null,$like);
@@ -93,11 +82,6 @@ class Search extends CommonDash {
 			foreach ($un as $key) {
 				$i++;
 				$dt2[] = $key->name.' LIKE "%'.$search.'%" ';
-				// if ($i==1) {
-				// 	$dt2[] = $key->name." LIKE '%".$search."%'";
-				// }else{
-				// 	$dt2[] = "OR ".$key->name." LIKE '%".$search."%'";
-				// }
 			}
 			$like = implode(" OR ", $dt2);
 			$dtsearch['un'] = $this->Mod_crud->getData('result','*', 't_university_profile',null,null,null,null,null,null,$like);

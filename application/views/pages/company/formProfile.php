@@ -12,6 +12,7 @@
 
 	<div class="panel-body">
 		<input type="hidden" name="getSector" id="getSector" value="<?= base_url('company/get_sector') ?>">
+		<!-- <input type="hidden" name="getEnum" id="getEnum" value="<?= base_url('company/get_enum') ?>"> -->
 		<form class="form-horizontal form-validate-jquery" action="<?= $actionForm ?>" method="POST" name="pengaduan-form" id="pengaduan-form">
 			<fieldset class="content-group">
 				
