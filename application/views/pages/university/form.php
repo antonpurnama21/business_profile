@@ -18,7 +18,7 @@
 								<label class="control-label col-lg-4">University</label>
 								<div class="col-lg-8">
 									<div class="input-group">
-										<div class="input-group-addon"><i class="icon-user-tie"></i></div>
+										<div class="input-group-addon"><i class="icon-cube4"></i></div>
 										<input type="text" name="Universityname" id="Universityname" class="form-control" required="required" placeholder="Insert University" title="Insert University" value="<?= isset($dMaster->universityName) ? $dMaster->universityName : '' ?>" required>
 									</div>
 								</div>

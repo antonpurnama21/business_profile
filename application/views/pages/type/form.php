@@ -17,7 +17,7 @@
 								<label class="control-label col-lg-4">Comunity type</label>
 								<div class="col-lg-8">
 									<div class="input-group">
-										<div class="input-group-addon"><i class="icon-user-tie"></i></div>
+										<div class="input-group-addon"><i class="icon-cube4"></i></div>
 										<input type="text" name="Name" id="Name" class="form-control" required="required" placeholder="Insert type" title="Insert type" value="<?= isset($dMaster->typeComunity) ? $dMaster->typeComunity : '' ?>" required>
 									</div>
 								</div>

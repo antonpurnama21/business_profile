@@ -17,7 +17,7 @@
 								<label class="control-label col-lg-4">Comunity</label>
 								<div class="col-lg-8">
 									<div class="input-group">
-										<div class="input-group-addon"><i class="icon-user-tie"></i></div>
+										<div class="input-group-addon"><i class="icon-cube4"></i></div>
 										<input type="text" name="Comunityname" id="Comunityname" class="form-control" required="required" placeholder="Insert Comunity" title="Insert Comunity" value="<?= isset($dMaster->comunityName) ? $dMaster->comunityName : '' ?>" required>
 									</div>
 								</div>
