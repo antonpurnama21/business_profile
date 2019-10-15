@@ -10,15 +10,15 @@
 				<div class="modal-body">
 					<fieldset class="content-group">
 
-						<input type="hidden" name="Companyid" id="Companyid" class="form-control" value="<?= isset($dMaster->companyID) ? $dMaster->companyID : '' ?>" readonly>
+						<input type="hidden" name="ID" id="ID" class="form-control" value="<?= isset($dMaster->sectorID) ? $dMaster->sectorID : '' ?>" readonly>
 						
 						<div class="row">
 							<div class="form-group">
-								<label class="control-label col-lg-4">Company</label>
+								<label class="control-label col-lg-4">Company Sector</label>
 								<div class="col-lg-8">
 									<div class="input-group">
 										<div class="input-group-addon"><i class="icon-user-tie"></i></div>
-										<input type="text" name="Companyname" id="Companyname" class="form-control" required="required" placeholder="Insert Company" title="Insert Company" value="<?= isset($dMaster->companyName) ? $dMaster->companyName : '' ?>" required>
+										<input type="text" name="Name" id="Name" class="form-control" required="required" placeholder="Insert Sector" title="Insert Sector" value="<?= isset($dMaster->sectorCompany) ? $dMaster->sectorCompany : '' ?>" required>
 									</div>
 								</div>
 							</div>

@@ -174,6 +174,7 @@ class University extends CommonDash {
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public function delete(){
+		helper_log('delete','Delete University ( '.name_university($this->input->post('id')).' )',$this->session->userdata('userlog')['sess_usrID']);
 		$query 		= $this->Mod_crud->deleteData('t_university', array('universityID' => $this->input->post('id')));
 		if ($query){
 			$delpro	= $this->Mod_crud->deleteData('t_university_profile', array('universityID' => $this->input->post('id')));
@@ -300,7 +301,7 @@ class University extends CommonDash {
 		
 		$add = $this->Mod_crud->query('ALTER TABLE `t_university_profile` ADD `'.$field.'` '.$Tipe.' NULL  AFTER `'.$after.'`');
 
-		helper_log('add','Add New Coloumn Field ( '.$field.' ) In Table university Profile',$this->session->userdata('userlog')['sess_usrID']);
+		helper_log('add','Add New Column Field ( '.$field.' ) In Table university Profile',$this->session->userdata('userlog')['sess_usrID']);
 
 		if ($add){
 			$this->alert->set('bg-success', "Add Field Success ! ");
@@ -312,6 +313,7 @@ class University extends CommonDash {
 
 		public function delete_field()
 	{
+		helper_log('delete','Delete Column Field University Profile ( '.$this->input->post('id').' )',$this->session->userdata('userlog')['sess_usrID']);
 		$query 		= $this->Mod_crud->query('ALTER TABLE `t_university_profile` DROP `'.$this->input->post('id').'`');
 		if ($query){
 			$data = array(

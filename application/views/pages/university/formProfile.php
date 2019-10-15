@@ -56,8 +56,8 @@
 								<label class="control-label col-lg-3"><?=ucwords($pass2)?></label>
 								<div class="col-lg-9">
 									<div class="input-group">
-										<div class="input-group-addon"><i class="icon-file-plus"></i></div>
-										<input type="text" name="<?=$name?>" id="<?=$name?>" class="form-control pickadate" required="required" placeholder="Pick <?=$pass2?>" title="Pick <?=$pass2?>" value="<?= isset($dMaster->$name) ? $dMaster->$name : '' ?>">
+										<div class="input-group-addon"><i class="icon-file-plus" style="color: red;"></i></div>
+										<input type="text" name="<?=$name?>" id="<?=$name?>" class="form-control pickadate" required="required" placeholder="Pick <?=$pass2?>" value="<?= isset($dMaster->$name) ? $dMaster->$name : '' ?>">
 									</div>
 									<div class="pull-right"><?=$btnDelete?></div>
 								</div>
@@ -68,8 +68,8 @@
 								<label class="control-label col-lg-3"><?=ucwords($pass2)?></label>
 								<div class="col-lg-9">
 									<div class="input-group">
-										<div class="input-group-addon"><i class="icon-file-plus"></i></div>
-										<textarea rows="3" cols="3" name="<?=$name?>" id="<?=$name?>" class="form-control" required="required" placeholder="Insert <?=$name?>" title="Insert <?=$name?>"><?=$dMaster->$name?></textarea>
+										<div class="input-group-addon"><i class="icon-file-plus" style="color: red;"></i></div>
+										<textarea data-placement="left" data-popup="tooltip" title="Priority Field" rows="3" cols="3" name="<?=$name?>" id="<?=$name?>" class="form-control" required="required" placeholder="Insert <?=$name?>"><?=$dMaster->$name?></textarea>
 									</div>
 									<div class="pull-right"><?=$btnDelete?></div>
 								</div>
@@ -79,8 +79,8 @@
 								<label class="control-label col-lg-3"><?=ucwords($pass2)?></label>
 								<div class="col-lg-9">
 									<div class="input-group">
-										<div class="input-group-addon"><i class="icon-file-plus"></i></div>
-										<input type="number" name="<?=$name?>" id="<?=$name?>" class="form-control" required="required" placeholder="Insert <?=$pass2?>" title="Insert <?=$pass2?>" value="<?=$dMaster->$name?>" <?=$read?>>
+										<div class="input-group-addon"><i class="icon-file-plus" style="color: red;"></i></div>
+										<input data-placement="left" data-popup="tooltip" title="Priority Field" type="number" name="<?=$name?>" id="<?=$name?>" class="form-control" required="required" placeholder="Insert <?=$pass2?>" value="<?=$dMaster->$name?>" <?=$read?>>
 									</div>
 									<div class="pull-right"><?=$btnDelete?></div>
 								</div>
@@ -90,13 +90,13 @@
 								<label class="control-label col-lg-3"><?=ucwords($pass2)?></label>
 								<div class="col-lg-9">
 									<div class="input-group">
-										<div class="input-group-addon"><i class="icon-file-plus"></i></div>
-										<input type="text" name="<?=$name?>" id="<?=$name?>" class="form-control" required="required" placeholder="Insert <?=$pass2?>" title="Insert <?=$pass2?>" value="<?=$dMaster->$name?>" <?=$read?>>
+										<div class="input-group-addon"><i class="icon-file-plus" style="color: red;"></i></div>
+										<input data-placement="left" data-popup="tooltip" title="Priority Field" type="text" name="<?=$name?>" id="<?=$name?>" class="form-control" required="required" placeholder="Insert <?=$pass2?>" value="<?=$dMaster->$name?>" <?=$read?>>
 									</div>
 									<div class="pull-right"><?=$btnDelete?></div>
 								</div>
 							</div>
-						<?php }?>
+						<?php } ?>
 					
 					<?php endforeach ?>
 

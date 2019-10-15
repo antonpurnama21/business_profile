@@ -173,6 +173,7 @@ class Company extends CommonDash {
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public function delete(){
+		helper_log('delete','Delete Company ( '.name_company($this->input->post('id')).' )',$this->session->userdata('userlog')['sess_usrID']);
 		$query 		= $this->Mod_crud->deleteData('t_company', array('companyID' => $this->input->post('id')));
 		if ($query){
 			$delpro	= $this->Mod_crud->deleteData('t_company_profile', array('companyID' => $this->input->post('id')));
@@ -296,7 +297,7 @@ class Company extends CommonDash {
 		
 		$add = $this->Mod_crud->query('ALTER TABLE `t_company_profile` ADD `'.$field.'` '.$Tipe.' NULL  AFTER `'.$after.'`');
 
-		helper_log('add','Add New Coloumn Field ( '.$field.' ) In Table Company Profile',$this->session->userdata('userlog')['sess_usrID']);
+		helper_log('add','Add New Column Field ( '.$field.' ) In Table Company Profile',$this->session->userdata('userlog')['sess_usrID']);
 
 		if ($add){
 			$this->alert->set('bg-success', "Add Field success ! ");
@@ -308,6 +309,7 @@ class Company extends CommonDash {
 
 		public function delete_field()
 	{
+		helper_log('delete','Delete Column Field Company Profile ( '.$this->input->post('id').' )',$this->session->userdata('userlog')['sess_usrID']);
 		$query 		= $this->Mod_crud->query('ALTER TABLE `t_company_profile` DROP `'.$this->input->post('id').'`');
 		if ($query){
 			$data = array(

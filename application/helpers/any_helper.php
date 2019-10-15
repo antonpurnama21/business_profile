@@ -276,9 +276,24 @@ if (!function_exists('name_sector'))
 	{
 		$CI =& get_instance();
 
-		$get = $CI->Mod_crud->getData('row', 'sector', 't_company_sector', null, null, null, array("sector = '".$id."'"));
+		$get = $CI->Mod_crud->getData('row', 'sectorCompany', 't_company_sector', null, null, null, array("sectorID = '".$id."'"));
 		if ($get) :
-			return $get->sector;
+			return $get->sectorCompany;
+		else :
+			return false;
+		endif;
+	}
+}
+
+if (!function_exists('name_typecomunity'))
+{
+	function name_typecomunity($id=null)
+	{
+		$CI =& get_instance();
+
+		$get = $CI->Mod_crud->getData('row', 'typeComunity', 't_comunity_type', null, null, null, array("typeID = '".$id."'"));
+		if ($get) :
+			return $get->typeComunity;
 		else :
 			return false;
 		endif;
