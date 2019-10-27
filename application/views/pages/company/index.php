@@ -23,7 +23,7 @@
 								$name = $key->name;
 								$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
 								$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);?>
-						<th><?=ucwords($pass2); ?></th>
+						<th><?= print_out(ucwords($pass2)); ?></th>
 						<?php } ?>
 						<th>Action</th>
 					</tr>
@@ -46,7 +46,7 @@
 									}
 									?>
 
-								<td><?= $show ?></td>
+								<td><?= print_out($show) ?></td>
 
 								<?php } ?>
 								<td class="text-center">
