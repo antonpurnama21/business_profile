@@ -706,17 +706,11 @@ if (!function_exists('name_comunity'))
 	}
 }
 
-if (!function_exists('pencarian_highlight'))
-{
-	function pencarian_highlight($record_dari_tabel_db, $pencarian)
-	{
-	    preg_match_all('~\w+~', $pencarian, $m);
-	    if(!$m)
-	    	return $record_dari_tabel_db;
-	   	$re = '~\\b(' . implode('|', $m[0]) . ')\\b~'; 
-	    	return preg_replace($re, '<b>$0</b>', $record_dari_tabel_db);
-	}
-}
+/*
+* @Function_name : highlightKeyword
+* @Return_type : String
+* @Author : Anton Purnama /082118115288
+*/
 
 if (!function_exists('highlightKeywords'))
 {
@@ -730,18 +724,4 @@ if (!function_exists('highlightKeywords'))
 
 	}
 }
-// if (!function_exists('highlightKeywords'))
-// {
-// 	function highlightKeywords($text, $keyword) {
-// 		$wordsAry = explode(" ", $keyword);
-// 		$wordsCount = count($wordsAry);
-
-// 		for($i=0;$i<$wordsCount;$i++) {
-// 			$highlighted_text = "<span style='font-weight:bold;'>$wordsAry[$i]</span>";
-// 			$text = str_ireplace($wordsAry[$i], $highlighted_text, $text);
-// 		}
-
-// 		return $text;
-// 	}
-// }
 

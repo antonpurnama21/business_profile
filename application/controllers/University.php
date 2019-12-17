@@ -233,23 +233,6 @@ class University extends CommonDash {
 		echo json_encode($resp);
 	}
 
-	// 	public function get_mou()
-	// {
-	// 	$resp = array();
-	// 	for ($i=0; $i < 2; $i++) { 
-	// 		if ($i==1) {
-	// 			$mk['id'] = 'YES';
-	// 			$mk['text'] = 'YES';
-	// 			array_push($resp, $mk);
-	// 		}else{
-	// 			$mk['id'] = 'NO';
-	// 			$mk['text'] = 'NO';
-	// 			array_push($resp, $mk);
-	// 		}
-	// 	}		
-	// 	echo json_encode($resp);
-	// }
-
 		public function get_mou()
 	{
 		$resp = array();

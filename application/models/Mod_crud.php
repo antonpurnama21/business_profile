@@ -2,7 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mod_crud extends CI_Model {
-
+//model crud 
+	//fungsi ambil data
 	function getData($type = null, $select, $table, $limit = null, $offset = null, $joins = null, $where = null, $group = null, $order = null, $like = null)
 	{
 		$command = "SELECT $select FROM $table";
@@ -52,7 +53,7 @@ class Mod_crud extends CI_Model {
 			return false;
 		}
 	}
-
+	//fungsi menghitung data
 	function countData($type = null, $select, $table, $limit = null, $offset = null, $joins = null, $where = null, $group = null, $order = null, $like = null)
 	{
 		$command = "SELECT $select FROM $table";
@@ -97,7 +98,7 @@ class Mod_crud extends CI_Model {
 		$data = $this->db->query($command);
 		return $data->num_rows();
 	}
-
+	//fungsi query
 	function qry($type = null, $command)
 	{
 		$data = $this->db->query($command);
@@ -117,13 +118,13 @@ class Mod_crud extends CI_Model {
 			}
 		}
 	}
-
+	//fungsi query tanpa tipe
 	function query($command)
 	{
 		$data = $this->db->query($command);
 		return $data;
 	}
-
+	//fungsi cek data
 	function checkData($row, $table, $where)
 	{
 		$command = "SELECT $row FROM $table";
@@ -141,13 +142,13 @@ class Mod_crud extends CI_Model {
 		}
 
 	}
-
+	//fungsi insert data
 	function insertData($table,$data)
 	{
 		$data = $this->db->insert($table,$data);
 		return $data;
 	}
-
+	//fungsi update data
 	function updateData($table,$data,$where)
 	{
 		foreach ($where as $key => $values) {
@@ -156,7 +157,7 @@ class Mod_crud extends CI_Model {
 		$data = $this->db->update($table,$data);
 		return $data;
 	}
-
+	//fungsi delete data
 	function deleteData($table,$where)
 	{
 		foreach ($where as $key => $values) {
@@ -165,7 +166,7 @@ class Mod_crud extends CI_Model {
 		$data = $this->db->delete($table);
 		return $data;
 	}
-
+	//fungsi membuat number otomatis
 	function autoNumber($field, $table, $format, $digit)
 	{
 		$qry = $this->db->query("SELECT MAX(RIGHT($field,$digit)) AS KodeAkhir FROM $table WHERE $field LIKE '$format%'");
@@ -177,11 +178,11 @@ class Mod_crud extends CI_Model {
 		$kode = $format.sprintf("%0".$digit."s", $nextCode);
 		return $kode;
 	}
-
+	//insert banyak data
 	public function insert_multiple_mhs($data,$id){
 	    $this->db->insert_batch('mahasiswa', $data);
 	  }
-	
+	//fungsi menampilkan daftar tabel pada database
 	function get_table_list(){
 		$table = $this->db->list_tables();
 		$table_list = array();
@@ -195,7 +196,7 @@ class Mod_crud extends CI_Model {
 		}
 		return $table_list;
 	}
-
+	//fungsi query field table
 	function qry_field_info($select, $table, $limit = null, $offset = null, $joins = null, $where = null, $group = null, $order = null, $like = null)
 	{
 		$command = "SELECT $select FROM $table";
@@ -240,11 +241,11 @@ class Mod_crud extends CI_Model {
 		$data = $this->db->query($command);
 		return $data->field_data();
 	}
-	
+	//field table
 	function get_field_info($table_name){
 		return $this->db->field_data($table_name);
 	}
-	
+	//insert user input
 	function create_field_user_input($table_name){
 		$this->load->dbforge();
 		if (!$this->db->field_exists('user_input', $table_name)){
@@ -253,7 +254,7 @@ class Mod_crud extends CI_Model {
 		}
 		
 	}
-	
+	//menghitung data pada tabel
 	function get_count($table_name){
       return $this->db->count_all($table_name);
 	}

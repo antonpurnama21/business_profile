@@ -4,16 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH."controllers/CommonDash.php");
 
 class Search extends CommonDash {
-
+//controller untuk fiur seacrh all data
 	public function __construct()
 	{
 		parent::__construct();
 		
 	}
-
+	//search index
 	public function index()
 	{
-		$data = array(
+		$data = array(// generate js
 			'_JS' => generate_js(array(
 						"dashboards/js/plugins/ui/moment/moment.min.js",
 						"dashboards/js/plugins/tables/datatables/datatables.min.js",
@@ -31,31 +31,36 @@ class Search extends CommonDash {
 						"dashboards/js/pages/search-script.js",
 				)
 			),
-			'titleWeb' => 'Search Data',
-			'breadcrumb' => explode(',', 'Dashboard,Search Data'),
+			'titleWeb' => 'Search Data',//title web
+			'breadcrumb' => explode(',', 'Dashboard,Search Data'),//bread crumb
 		);
-		$this->render('dashboard', 'pages/search/index', $data);
+		$this->render('dashboard', 'pages/search/index', $data);//load view search index
 	}
 
-		public function searchData()
+		public function searchData()//aksi search data
 	{	
+		//ambil inputan search
 		$search 	= $this->input->post('inputsearch');
-		$db 		= array();
+		$db 		= array();// db set array
 
-		if ($search) {
+		if ($search) {//jika search ada inputan
+			//ambil field table company profile
 			$cp = $this->Mod_crud->get_field_info('t_company_profile');
 			$i = 0; 
-			foreach ($cp as $key) {
+			foreach ($cp as $key) {//looping data cp field
 				$i++;
 
-				$dt[] = $key->name.' LIKE "%'.$search.'%" ';
+				$dt[] = $key->name.' LIKE "%'.$search.'%" ';//array data
 			}
-			$like = implode(" OR ", $dt);
+			$like = implode(" OR ", $dt);//selipkan 'or' pada data
+			//ambil company profile ke array dtsearch cp
 			$dtsearch['cp'] = $this->Mod_crud->getData('result','*', 't_company_profile',null,null,null,null,null,null,$like);
+			//ambil company field ke array dtfield cp
 			$dtField['cp'] 	= $this->Mod_crud->get_field_info('t_company_profile');
+			//menghitung total data company profile
 			$total1 = $this->Mod_crud->countData('result','*', 't_company_profile',null,null,null,null,null,null,$like);
-			if ($total1 > 0) {
-				$db['cp'] 		= 'company';
+			if ($total1 > 0) {//jika total lebih dari nol
+				$db['cp'] 		= 'company';//company ke array cp
 			}
 		}
 
@@ -113,13 +118,13 @@ class Search extends CommonDash {
 			),
 			'titleWeb' 	=> 'Result',
 			'breadcrumb'=> explode(',', 'Dashboard,Search Data'),
-			'dMaster'	=> $dtsearch,
-			'dField'	=> $dtField,
+			'dMaster'	=> $dtsearch,//hasil pencarian
+			'dField'	=> $dtField,//data field table
 			'db'		=> $db,
-			'keyword'	=> $search,
-			'countotal'	=> $total1 + $total2 + $total3,
+			'keyword'	=> $search,//kata kunvi yang di cari
+			'countotal'	=> $total1 + $total2 + $total3,//total data yang berhasil di cari
 		);
-		$this->render('dashboard', 'pages/search/result', $data);
+		$this->render('dashboard', 'pages/search/result', $data);//load view search result
 
 	}
 

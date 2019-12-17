@@ -162,6 +162,7 @@
 </head>
 
 <body class="navbar-top">
+	
 
 	<!-- Main navbar -->
 	<div class="navbar navbar-inverse navbar-fixed-top bg-indigo-800">
@@ -249,7 +250,7 @@
 
 
 				<!-- Content area -->
-				<div class="content">
+				<div id="content" class="content">
 
 					<!-- Dashboard content -->
 					
@@ -283,4 +284,6 @@
     <?php endforeach; ?>
     <?php endif; ?>
 </script>
+
+
 </html>

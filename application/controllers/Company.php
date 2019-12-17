@@ -4,16 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH."controllers/CommonDash.php");
 
 class Company extends CommonDash {
-
+//controller untuk mengelola company table
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Mod_crud');
 	}
 
+	//company index
 	public function index()
 	{
-		$data = array(
+		$data = array(//generate js
 			'_JS' => generate_js(array(
 						"dashboards/js/plugins/ui/moment/moment.min.js",
 						"dashboards/js/plugins/tables/datatables/datatables.min.js",
@@ -29,15 +29,18 @@ class Company extends CommonDash {
 						"dashboards/js/pages/company-index-script.js",
 				)
 			),
-			'titleWeb' => "Company Profile",
+			'titleWeb' => "Company Profile",//web title
 			'breadcrumb' => explode(',', 'Company,Company List'),
+			//ambil data company profile
 			'dMaster'	=> $this->Mod_crud->getData('result','cp.companyProfileID,cp.companyID,cp.companyName,cp.sectorCompany,cp.EmailAddress', 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID')),
+			//ambil table field info
 			'dField'	=> $this->Mod_crud->qry_field_info('cp.companyProfileID,cp.companyID,cp.companyName,cp.sectorCompany,cp.EmailAddress', 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID')),
 			
 		);
-		$this->render('dashboard', 'pages/company/index', $data);
+		$this->render('dashboard', 'pages/company/index', $data);//load view company index
 	}
 
+	//form company profile
 	public function form($id=null)
 	{	
 		$data = array(
@@ -59,31 +62,33 @@ class Company extends CommonDash {
 		    'dMaster'	 => $this->Mod_crud->getData('row', '*', 't_company_profile', null, null, null, array('companyID = "'.$id.'"')),
 		    'dField'	 => $this->Mod_crud->get_field_info('t_company_profile'),
 		    'breadcrumb' => explode(',', 'Company, Form Company Profile'),
-		    'actionForm' => base_url('company/save_form'),
+		    'actionForm' => base_url('company/save_form'),//url aksi
 		    'buttonForm' => 'Save'
 		);
 
-		$this->render('dashboard', 'pages/company/formProfile', $data);
+		$this->render('dashboard', 'pages/company/formProfile', $data);//load view form profile
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function modal_Add(){
+	public function modal_Add(){//modal tambah company
 		$data = array(
-				'modalTitle' => 'Add Company ',
-				'formAction' => base_url('company/save'),
+				'modalTitle' => 'Add Company ',//modal title
+				'formAction' => base_url('company/save'),//url aksi modal
 				'Req' => ''
 			);
-		$this->load->view('pages/company/form', $data);
+		$this->load->view('pages/company/form', $data);//load modal form add
 	}
 
-	public function save(){
+	public function save(){//aksi modal tambah
+		//cek duplikasi nama company
 		$cek = $this->Mod_crud->checkData('companyName', 't_company', array('companyName = "'.$this->input->post('Companyname').'"'));
-		if ($cek){
+		if ($cek){//jika ada
 			echo json_encode(array('code' => 256, 'message' => 'Company has been registered'));
 		}else{
-
+			//generate id
 			$id 		= $this->Mod_crud->autoNumber('companyID','t_company','CP-',3);
+			//generete profile id
 			$idprofile 	= $this->Mod_crud->autoNumber('companyProfileID','t_company_profile','ID-'.$id.'-',2);
-
+			//simpan data company
 			$save = $this->Mod_crud->insertData('t_company', array(
 						'companyID' 		=> $id,
 						'companyName' 		=> $this->input->post('Companyname'),
@@ -91,14 +96,18 @@ class Company extends CommonDash {
 						'createdTime' 		=> date('Y-m-d H:i:s')
            			)
            		);
+			//simpan profile
 			$savepro = $this->Mod_crud->insertData('t_company_profile', array(
 						'companyProfileID' 	=> $idprofile,
 						'companyID' 		=> $id,
 						'companyName' 		=> $this->input->post('Companyname'),
            			)
            		);
+
+			//log simpan company
 			helper_log('add','Add New Company ( '.$this->input->post('Companyname').' )',$this->session->userdata('userlog')['sess_usrID']);
-			if ($save){
+			if ($save){//jika bernilai true
+				//set alert sukses
 				$this->alert->set('bg-success', "Insert success ! ");
        			echo json_encode(array('code' => 200, 'message' => 'Insert success !'));
        		}else{
@@ -107,24 +116,25 @@ class Company extends CommonDash {
 		}
 	}
 
-	public function save_form(){
-
+	public function save_form(){//aksi form profile company
+			//simpan perubahan company
 			$update = $this->Mod_crud->updateData('t_company', array(
 						'companyName'	=> $this->input->post('companyName'),
 						'createdBY'		=> $this->session->userdata('userlog')['sess_usrID'],
 						'createdTime' 	=> date('Y-m-d H:i:s')
            			), array('companyID ' => $this->input->post('companyID'))
            		);
+			//ambil info field
 			$up = $this->Mod_crud->get_field_info('t_company_profile');
-			foreach ($up as $key) {
+			foreach ($up as $key) {//looping simpan profile
 				$updateProfile = $this->Mod_crud->updateData('t_company_profile', array(
 						$key->name	=> $this->input->post($key->name),
            			), array('companyProfileID ' => $this->input->post('companyProfileID'))
            		);	
 			}
-
+			//log simpan profile company
 			helper_log('edit','Update Profile Company ( '.$this->input->post('companyName').' )',$this->session->userdata('userlog')['sess_usrID']);
-			if ($updateProfile){
+			if ($updateProfile){//jika bernilai true
 				$this->alert->set('bg-success', "Update success ! ");
        			echo json_encode(array('code' => 200, 'message' => 'Update success !', 'aksi' => "window.location.href='".base_url('company')."';"));
        		}else{
@@ -133,34 +143,37 @@ class Company extends CommonDash {
 
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function modal_edit(){
-		$ID = explode('~',$this->input->post('id'));
+	public function modal_edit(){//modal edit
+		$ID = explode('~',$this->input->post('id'));//get id
 		$data = array(
-				'modalTitle' => 'Edit '.$ID[1],
+				'modalTitle' => 'Edit '.$ID[1],//modal title
+				//ambil data company by id
 				'dMaster' => $this->Mod_crud->getData('row', '*', 't_company', null, null, null, array('companyID = "'.$ID[0].'"')),
-				'formAction' => base_url('company/edit'),
+				'formAction' => base_url('company/edit'),//url aksi modal
 				'Req' => ''
 			);
-		$this->load->view('pages/company/form', $data);
+		$this->load->view('pages/company/form', $data);//load view modal edit
 	}
 
-	public function edit(){
+	public function edit(){//aksi modal edit
+		//cek dupliksai nama company
 		$cek = $this->Mod_crud->checkData('companyName', 't_company', array('companyName = "'.$this->input->post('Companyname').'"', 'companyID != "'.$this->input->post('Companyid').'"'));
-		if ($cek){
+		if ($cek){//jika ada
 			echo json_encode(array('code' => 256, 'message' => 'Company has been registered'));
 		}else{
-
+			//simpan perubahan
 			$update = $this->Mod_crud->updateData('t_company', array(
 						'companyName'	=> $this->input->post('Companyname'),
 						'createdBY'		=> $this->session->userdata('userlog')['sess_usrID'],
 						'createdTime' 	=> date('Y-m-d H:i:s')
            			), array('companyID ' => $this->input->post('Companyid'))
            		);
-
+			//simpan perubahan pada profile
 			$update = $this->Mod_crud->updateData('t_company_profile', array(
 						'companyName'	=> $this->input->post('Companyname'),
            			), array('companyID ' => $this->input->post('Companyid'))
            		);
+			//log edit perubahan company
 			helper_log('edit','Edit Company ( '.$this->input->post('Companyname').' )',$this->session->userdata('userlog')['sess_usrID']);
 
 			if ($update){
@@ -172,10 +185,13 @@ class Company extends CommonDash {
 		}
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function delete(){
+	public function delete(){//hapus company dan company profile
+		//log hapus
 		helper_log('delete','Delete Company ( '.name_company($this->input->post('id')).' )',$this->session->userdata('userlog')['sess_usrID']);
+		//hapus company
 		$query 		= $this->Mod_crud->deleteData('t_company', array('companyID' => $this->input->post('id')));
 		if ($query){
+			//hapus company profile
 			$delpro	= $this->Mod_crud->deleteData('t_company_profile', array('companyID' => $this->input->post('id')));
 			$data = array(
 					'code' => 200,
@@ -191,7 +207,7 @@ class Company extends CommonDash {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-		public function form_field($id=null)
+		public function form_field($id=null)//form tambah field tabel company
 	{	
 		$data = array(
 			'_JS' => generate_js(array(
@@ -215,10 +231,10 @@ class Company extends CommonDash {
 		    'buttonForm' => 'Save'
 		);
 
-		$this->render('dashboard', 'pages/company/formField', $data);
+		$this->render('dashboard', 'pages/company/formField', $data);//load view form field
 	}
 
-	public function get_typedata()
+	public function get_typedata()//ambil data tipe data
 	{
 		$resp = array();
 		$data = $this->Mod_crud->getData('result', 'Type', 't_type_data');
@@ -232,21 +248,7 @@ class Company extends CommonDash {
 		echo json_encode($resp);
 	}
 
-	// public function get_enum()
-	// {
-	// 	$resp = array();
-	// 	$data = $this->db->value_enum('t_company_profile','EnumTest');
-	// 	if (!empty($data)) {
-	// 		foreach ($data as $key) {
-	// 			$mk['id'] = $key;
-	// 			$mk['text'] = $key;
-	// 			array_push($resp, $mk);
-	// 		}
-	// 	}
-	// 	echo json_encode($resp);
-	// }
-
-	public function get_sector()
+	public function get_sector()//ambil data sector
 	{
 		$resp = array();
 		$data = $this->Mod_crud->getData('result', 'sectorCompany', 't_company_sector');
@@ -260,7 +262,7 @@ class Company extends CommonDash {
 		echo json_encode($resp);
 	}
 
-		public function get_field()
+		public function get_field()//ambil field info company
 	{
 		$resp = array();
 		$data = $this->Mod_crud->get_field_info('t_company_profile');
@@ -268,7 +270,7 @@ class Company extends CommonDash {
 			foreach ($data as $key) {
 				$name = $key->name;
 				$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
-				$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
+				$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);//memisahkan dengan spasi
 				if ($name == 'companyProfileID' OR $name == 'companyID' OR $name == 'companyName') {
 					
 				}else{
@@ -281,7 +283,7 @@ class Company extends CommonDash {
 		echo json_encode($resp);
 	}
 
-	public function add_field()
+	public function add_field()//aksi tambah field table
 	{
 		$field 	= $this->input->post('Fieldname');
 		$type 	= $this->input->post('Typedata');
@@ -289,17 +291,17 @@ class Company extends CommonDash {
 		$after 	= $this->input->post('After');
 		$companyID = $this->input->post('Companyid');
 
-	  	if ($type=='DATE') {
+	  	if ($type=='DATE') {//jika bertipe tanggal
 			$Tipe = $type;
 		}else{
 			$Tipe = $type.'('.$length.')';
 		}
-		
+		//tambah field ke tabel
 		$add = $this->Mod_crud->query('ALTER TABLE `t_company_profile` ADD `'.$field.'` '.$Tipe.' NULL  AFTER `'.$after.'`');
-
+		//log tambah field baru
 		helper_log('add','Add New Column Field ( '.$field.' ) In Table Company Profile',$this->session->userdata('userlog')['sess_usrID']);
 
-		if ($add){
+		if ($add){//jika bernilai true
 			$this->alert->set('bg-success', "Add Field success ! ");
     		echo json_encode(array('code' => 200, 'message' => 'Add Field success !', 'aksi' => "window.location.href='".base_url('company/form/').$companyID."';"));
     	}else{
@@ -307,9 +309,11 @@ class Company extends CommonDash {
      	}
 	}
 
-		public function delete_field()
+		public function delete_field()//hapus field pada table
 	{
+		//log hapus field
 		helper_log('delete','Delete Column Field Company Profile ( '.$this->input->post('id').' )',$this->session->userdata('userlog')['sess_usrID']);
+		//hapus field
 		$query 		= $this->Mod_crud->query('ALTER TABLE `t_company_profile` DROP `'.$this->input->post('id').'`');
 		if ($query){
 			$data = array(
@@ -324,11 +328,12 @@ class Company extends CommonDash {
 		
 	}
 
-	public function modal_profile()
+	public function modal_profile()//modal review field
 	{
-		$ID = explode('~',$this->input->post('id'));
+		$ID = explode('~',$this->input->post('id'));//get id
 		$data = array(
-				'modalTitle' => 'Profile '.$ID[1],
+				'modalTitle' => 'Profile '.$ID[1],//modal title
+				//ambil data company profile
 				'dMaster' 	=> $this->Mod_crud->getData('row', '*', 't_company_profile', null, null, null, array('companyID = "'.$ID[0].'"')),
 				'dField'	=> $this->Mod_crud->get_field_info('t_company_profile'), 
 				'Req' => ''
@@ -337,7 +342,7 @@ class Company extends CommonDash {
 	}
 
 
-	public function search()
+	public function search()//aksi pencarian
 	{
 		$sector 		= $this->input->post('Sector');
 		$keyword 		= $this->input->post('Keyword');
@@ -347,42 +352,43 @@ class Company extends CommonDash {
 		$field4 		= $this->input->post('Field4');
 		$field5 		= $this->input->post('Field5');
 
-		if ($sector) {
+		if ($sector) {//jika sector di input
 			$where = array('cp.sectorCompany = "'.$sector.'"');		
 		}else{
 			$where = null;
 		}
 
-		if ($field1) {
+		if ($field1) {//jika field 1  di inputkan
 			$field['f1'] = $field1;
 			$select[] = 'cp.'.$field1;
 			$like[] = 'cp.'.$field1.' LIKE "%'.$keyword.'%" ';
 		}
-		if ($field2) {
+		if ($field2) {//jika field 2 di inputkan
 			$field['f2'] = $field2;
 			$select[] = 'cp.'.$field2;
 			$like[] = 'cp.'.$field2.' LIKE "%'.$keyword.'%" ';
 		}
-		if ($field3) {
+		if ($field3) {//jika field 3 di inputkan
 			$field['f3'] = $field3;
 			$select[] = 'cp.'.$field3;
 			$like[] = 'cp.'.$field3.' LIKE "%'.$keyword.'%" ';
 		}
-		if ($field4) {
+		if ($field4) {//jika field 4 di inputkan
 			$field['f4'] = $field4;
 			$select[] = 'cp.'.$field4;
 			$like[] = 'cp.'.$field4.' LIKE "%'.$keyword.'%" ';
 		}
-		if ($field5) {
+		if ($field5) {//jika field 5 di inputkan
 			$field['f5'] = $field5;
 			$select[] = 'cp.'.$field5;
 			$like[] = 'cp.'.$field5.' LIKE "%'.$keyword.'%" ';
 		}
 
-		if (empty($select) OR empty($like)) {
+		if (empty($select) OR empty($like)) {//jika nilai select dan like kosong
+			// ambil field table company profile
 			$fl = $this->Mod_crud->get_field_info('t_company_profile');
 			$i = 0; 
-			foreach ($fl as $key) {
+			foreach ($fl as $key) {//looping field
 				$i++;
 				$name = $key->name;
 				if ($name == 'companyProfileID' OR $name == 'companyID' OR $name == 'companyName') {
@@ -393,10 +399,14 @@ class Company extends CommonDash {
 				$field[] = $name;
 				}
 			}
+			//create select
 			$slct 	= implode(', ', $sl);
+			//create query
 			$likes 	= 'cp.companyName LIKE "%'.$keyword.'%" OR '.implode(' OR ',$lk);
 		}else{
+			//create select
 			$slct 	= implode(', ', $select);
+			//create query like
 			$likes 	= 'cp.companyName LIKE "%'.$keyword.'%" OR '.implode(' OR ',$like);
 			$field = $field;
 		}
@@ -419,13 +429,15 @@ class Company extends CommonDash {
 			),
 			'titleWeb'	=> "Company Profile",
 			'breadcrumb'=> explode(',', 'Company,Company List'),
+			//ambil data profile
 			'dMaster'	=> $this->Mod_crud->getData('result','cp.companyProfileID, cp.companyID, cp.companyName, '.$slct, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$likes),
+			//tampilkan field table company profile
 			'dField'	=> $this->Mod_crud->qry_field_info('cp.companyProfileID, cp.companyID, cp.companyName, '.$slct, 't_company c',null,null,array('t_company_profile cp'=>'c.companyID = cp.companyID'),$where,null,null,$likes),	
-			'sector'	=> $sector,
-			'keyword'	=> $keyword,
-			'field'		=> $field,
+			'sector'	=> $sector,//sector
+			'keyword'	=> $keyword,//keyword
+			'field'		=> $field,//field
 		);
-		$this->render('dashboard', 'pages/company/result', $data);
+		$this->render('dashboard', 'pages/company/result', $data);//load view company result
 	}
 
 

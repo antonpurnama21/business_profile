@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH."controllers/CommonDash.php");
 
 class Dashboard extends CommonDash {
-
+//comtroller tampilan dashboard
 	public function __construct()
 	{
 		parent::__construct();
@@ -15,12 +15,12 @@ class Dashboard extends CommonDash {
 	{
 
 		$data = array(
-			'titleWeb' => 'Business Profile',
+			'titleWeb' => 'Business Profile',//web title
 			'breadcrumb' => explode(',', 'Dashboard,Main page'),
-			'totalUniv' => count($this->Mod_crud->getData('result','*','t_university')),
-			'totalCompany' => count($this->Mod_crud->getData('result','*','t_company')),
-			'totalComunity' => count($this->Mod_crud->getData('result','*','t_comunity')),
-			'mouYes' => count($this->Mod_crud->getData('result','*','t_university',null,null,null,array('mou = "YES"'))),
+			'totalUniv' => count($this->Mod_crud->getData('result','*','t_university')),//total university
+			'totalCompany' => count($this->Mod_crud->getData('result','*','t_company')),//total company
+			'totalComunity' => count($this->Mod_crud->getData('result','*','t_comunity')),//total comunity
+			'mouYes' => count($this->Mod_crud->getData('result','*','t_university',null,null,null,array('mou = "YES"'))),//universitas yang sudah MOU
 		);
 		$this->render('dashboard', 'welcome_message', $data);
 	}
