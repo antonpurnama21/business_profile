@@ -4,14 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH."controllers/CommonDash.php");
 
 class Comunity extends CommonDash {
-
+//controller comunity 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Mod_crud');
 	}
 
-	public function index()
+	public function index()//comunity index
 	{
 		$data = array(
 			'_JS' => generate_js(array(
@@ -29,17 +28,19 @@ class Comunity extends CommonDash {
 						"dashboards/js/pages/comunity-index-script.js",
 				)
 			),
-			'titleWeb' => "Comunity Profile",
-			'breadcrumb' => explode(',', 'Comunity,Comunity List'),
+			'titleWeb' => "Comunity Profile",//title aplikasi
+			'breadcrumb' => explode(',', 'Comunity,Comunity List'),//bread crumb
+			//ambil data profile comunity
 			'dMaster'	=> $this->Mod_crud->getData('result','cp.comunityProfileID, cp.comunityID, cp.comunityName, cp.EmailAddress, cp.typeComunity', 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID')),
+			//ambil field table
 			'dField'	=> $this->Mod_crud->qry_field_info('cp.comunityProfileID, cp.comunityID, cp.comunityName, cp.EmailAddress, cp.typeComunity', 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID')),
 		);
-		$this->render('dashboard', 'pages/comunity/index', $data);
+		$this->render('dashboard', 'pages/comunity/index', $data);//load view comunity index
 	}
 
-	public function form($id=null)
+	public function form($id=null)//form comunity profile
 	{	
-		$data = array(
+		$data = array(//generate js
 			'_JS' => generate_js(array(
 					"dashboards/js/plugins/ui/moment/moment.min.js",
 					"dashboards/js/plugins/forms/validation/validate.min.js",
@@ -55,34 +56,38 @@ class Comunity extends CommonDash {
 				)
 			),
 		    'titleWeb'   => "Form Comunity Profile",
+		    //ambil data profile komunitas
 		    'dMaster'	 => $this->Mod_crud->getData('row', '*', 't_comunity_profile', null, null, null, array('comunityID = "'.$id.'"')),
+		    //field record tabel profile komunitas
 		    'dField'	 => $this->Mod_crud->get_field_info('t_comunity_profile'),
 		    'breadcrumb' => explode(',', 'Comunity, Form Comunity Profile'),
-		    'actionForm' => base_url('comunity/save_form'),
+		    'actionForm' => base_url('comunity/save_form'),//url aksi form
 		    'buttonForm' => 'Save'
 		);
 
-		$this->render('dashboard', 'pages/comunity/formProfile', $data);
+		$this->render('dashboard', 'pages/comunity/formProfile', $data);//load view komunitas form profile
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function modal_add(){
+	public function modal_add(){//modal tambah
 		$data = array(
-				'modalTitle' => 'Add Comunity ',
-				'formAction' => base_url('comunity/save'),
+				'modalTitle' => 'Add Comunity ',//modal title
+				'formAction' => base_url('comunity/save'),//modal form url
 				'Req' => ''
 			);
-		$this->load->view('pages/comunity/form', $data);
+		$this->load->view('pages/comunity/form', $data);//load modal form
 	}
 
-	public function save(){
+	public function save(){//aksi modal tambah
+		//cek duplikasi nama komunitas
 		$cek = $this->Mod_crud->checkData('comunityName', 't_comunity', array('comunityName = "'.$this->input->post('Comunityname').'"'));
-		if ($cek){
+		if ($cek){//jika ada
 			echo json_encode(array('code' => 256, 'message' => 'Comunity has been registered'));
 		}else{
-
+			//generate id komunitas
 			$id 		= $this->Mod_crud->autoNumber('comunityID','t_comunity','CM-',3);
+			//generate id profile komunitas
 			$idprofile 	= $this->Mod_crud->autoNumber('comunityProfileID','t_comunity_profile','ID-'.$id.'-',2);
-
+			//simpan komunitas
 			$save = $this->Mod_crud->insertData('t_comunity', array(
 						'comunityID' 		=> $id,
 						'comunityName' 		=> $this->input->post('Comunityname'),
@@ -90,14 +95,17 @@ class Comunity extends CommonDash {
 						'createdTime' 		=> date('Y-m-d H:i:s')
            			)
            		);
+			//simpan komunitas profile
 			$savepro = $this->Mod_crud->insertData('t_comunity_profile', array(
 						'comunityProfileID' => $idprofile,
 						'comunityID' 		=> $id,
 						'comunityName' 		=> $this->input->post('Comunityname'),
            			)
            		);
+			//log tambah komunitas
 			helper_log('add','Add New Comunity ( '.$this->input->post('Comunityname').' )',$this->session->userdata('userlog')['sess_usrID']);
-			if ($save){
+			if ($save){//jika save bernilai true
+				//set alert sukses
 				$this->alert->set('bg-success', "Insert Success ! ");
        			echo json_encode(array('code' => 200, 'message' => 'Insert Success !'));
        		}else{
@@ -106,22 +114,23 @@ class Comunity extends CommonDash {
 		}
 	}
 
-	public function save_form(){
-
+	public function save_form(){//aksi form comunity profile
+			//update komunitas
 			$update = $this->Mod_crud->updateData('t_comunity', array(
 						'comunityName'	=> $this->input->post('comunityName'),
 						'createdBY'		=> $this->session->userdata('userlog')['sess_usrID'],
 						'createdTime' 	=> date('Y-m-d H:i:s')
            			), array('comunityID ' => $this->input->post('comunityID'))
            		);
+			//ambil field pada table comunity profile
 			$up = $this->Mod_crud->get_field_info('t_comunity_profile');
-			foreach ($up as $key) {
+			foreach ($up as $key) {//looping insert
 				$updateProfile = $this->Mod_crud->updateData('t_comunity_profile', array(
 						$key->name	=> $this->input->post($key->name),
            			), array('comunityProfileID ' => $this->input->post('comunityProfileID'))
            		);	
 			}
-
+			//log update comunity profile
 			helper_log('edit','Update Profile Comunity ( '.$this->input->post('comunityName').' )',$this->session->userdata('userlog')['sess_usrID']);
 			if ($updateProfile){
 				$this->alert->set('bg-success', "Update Success ! ");
@@ -132,34 +141,37 @@ class Comunity extends CommonDash {
 
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function modal_edit(){
-		$ID = explode('~',$this->input->post('id'));
+	public function modal_edit(){//modal edit komunitas
+		$ID = explode('~',$this->input->post('id'));//ambil komunitas
 		$data = array(
-				'modalTitle' => 'Edit '.$ID[1],
+				'modalTitle' => 'Edit '.$ID[1],//modal title
+				//ambil data komunitas by id
 				'dMaster' => $this->Mod_crud->getData('row', '*', 't_comunity', null, null, null, array('comunityID = "'.$ID[0].'"')),
-				'formAction' => base_url('comunity/edit'),
+				'formAction' => base_url('comunity/edit'),//url modal edit
 				'Req' => ''
 			);
-		$this->load->view('pages/comunity/form', $data);
+		$this->load->view('pages/comunity/form', $data);//load modal form komunitas
 	}
 
-	public function edit(){
+	public function edit(){//aksi modal edit
+		//cek duplikasi nama komunitas
 		$cek = $this->Mod_crud->checkData('comunityName', 't_comunity', array('comunityName = "'.$this->input->post('Comunityname').'"', 'comunityID != "'.$this->input->post('Comunityid').'"'));
-		if ($cek){
+		if ($cek){//jika ada
 			echo json_encode(array('code' => 256, 'message' => 'comunity has been registered'));
 		}else{
-
+			//simpan perubahan
 			$update = $this->Mod_crud->updateData('t_comunity', array(
 						'comunityName'	=> $this->input->post('Comunityname'),
 						'createdBY'		=> $this->session->userdata('userlog')['sess_usrID'],
 						'createdTime' 	=> date('Y-m-d H:i:s')
            			), array('comunityID ' => $this->input->post('Comunityid'))
            		);
-
+			//simpan perubahan pada profile komunitas
 			$update = $this->Mod_crud->updateData('t_comunity_profile', array(
 						'comunityName'	=> $this->input->post('Comunityname'),
            			), array('comunityID ' => $this->input->post('Comunityid'))
            		);
+			//log edit komunitas
 			helper_log('edit','Edit Comunity ( '.$this->input->post('Comunityname').' )',$this->session->userdata('userlog')['sess_usrID']);
 
 			if ($update){
@@ -171,10 +183,13 @@ class Comunity extends CommonDash {
 		}
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public function delete(){
+	public function delete(){//hapus komunitas 
+		//log hapus
 		helper_log('delete','Delete Comunity ( '.name_comunity($this->input->post('id')).' )',$this->session->userdata('userlog')['sess_usrID']);
+		//hapus komunitas
 		$query 		= $this->Mod_crud->deleteData('t_comunity', array('comunityID' => $this->input->post('id')));
-		if ($query){
+		if ($query){//jika query bernilai true
+			//hapus komunitas profile
 			$delpro	= $this->Mod_crud->deleteData('t_comunity_profile', array('comunityID' => $this->input->post('id')));
 			$data = array(
 					'code' => 200,
@@ -190,7 +205,7 @@ class Comunity extends CommonDash {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-		public function form_field($id=null)
+		public function form_field($id=null)//form tambah field record tabel komunitas profile
 	{	
 		$data = array(
 			'_JS' => generate_js(array(
@@ -214,10 +229,10 @@ class Comunity extends CommonDash {
 		    'buttonForm' => 'Save'
 		);
 
-		$this->render('dashboard', 'pages/comunity/formField', $data);
+		$this->render('dashboard', 'pages/comunity/formField', $data);//load view komunitas form field
 	}
 
-	public function get_typedata()
+	public function get_typedata()//ambil data pada tabel typedata
 	{
 		$resp = array();
 		$data = $this->Mod_crud->getData('result', 'Type', 't_type_data');
@@ -231,7 +246,7 @@ class Comunity extends CommonDash {
 		echo json_encode($resp);
 	}
 
-	public function get_type()
+	public function get_type()//ambil data pada tabel typecomunity
 	{
 		$resp = array();
 		$data = $this->Mod_crud->getData('result', 'typeComunity', 't_comunity_type');
@@ -245,7 +260,7 @@ class Comunity extends CommonDash {
 		echo json_encode($resp);
 	}
 
-		public function get_field()
+		public function get_field()//ambil field table comunity profile
 	{
 		$resp = array();
 		$data = $this->Mod_crud->get_field_info('t_comunity_profile');
@@ -254,9 +269,9 @@ class Comunity extends CommonDash {
 				$name = $key->name;
 				$pass1 = preg_replace("/([a-z])([A-Z])/","\\1 \\2",$name);
 				$pass2 = preg_replace("/([A-Z])([A-Z][a-z])/","\\1 \\2",$pass1);
-
+				//jika nam sama dengan ..
 				if ($name == 'comunityProfileID' OR $name == 'comunityID' OR $name == 'comunityName') {
-					
+					//kosong
 				}else{
 					$mk['id'] = $key->name;
 					$mk['text'] = ucwords($pass2);
@@ -267,25 +282,26 @@ class Comunity extends CommonDash {
 		echo json_encode($resp);
 	}
 
-	public function add_field()
+	public function add_field()//aksi form tambah field record tabel komunitas profile
 	{
-		$field 	= $this->input->post('Fieldname');
+		$field 	= $this->input->post('Fieldname');//ambil data post fieldname
 		$type 	= $this->input->post('Typedata');
 		$length = $this->input->post('Lengthdata');
 		$after 	= $this->input->post('After');
 		$comunityID = $this->input->post('Comunityid');
 
-	  	if ($type=='DATE') {
+	  	if ($type=='DATE') {//jika type bernilai 'DATE'
 			$Tipe = $type;
 		}else{
 			$Tipe = $type.'('.$length.')';
 		}
-		
+		//query tambah field tabel
 		$add = $this->Mod_crud->query('ALTER TABLE `t_comunity_profile` ADD `'.$field.'` '.$Tipe.' NULL  AFTER `'.$after.'`');
-
+		//log tambah field record
 		helper_log('add','Add New Column Field ( '.$field.' ) In Table Comunity Profile',$this->session->userdata('userlog')['sess_usrID']);
 
-		if ($add){
+		if ($add){//jika add bernilai true
+			//set alert sukses
 			$this->alert->set('bg-success', "Add Field success ! ");
     		echo json_encode(array('code' => 200, 'message' => 'Add Field success !', 'aksi' => "window.location.href='".base_url('comunity/form/').$comunityID."';"));
     	}else{
@@ -293,9 +309,11 @@ class Comunity extends CommonDash {
      	}
 	}
 
-		public function delete_field()
+		public function delete_field()//hapus field record pada table comunity profile
 	{
+		//log hapus delete field
 		helper_log('delete','Delete Column Field Comunity Profile ( '.$this->input->post('id').' )',$this->session->userdata('userlog')['sess_usrID']);
+		//query delete field record table
 		$query 		= $this->Mod_crud->query('ALTER TABLE `t_comunity_profile` DROP `'.$this->input->post('id').'`');
 		if ($query){
 			$data = array(
@@ -310,35 +328,37 @@ class Comunity extends CommonDash {
 		
 	}
 
-		public function modal_profile()
+		public function modal_profile()//modal review profile
 	{
 		$ID = explode('~',$this->input->post('id'));
 		$data = array(
-				'modalTitle' => 'Profile '.$ID[1],
+				'modalTitle' => 'Profile '.$ID[1],//modal title
+				//ambil data table comunity profile
 				'dMaster' 	=> $this->Mod_crud->getData('row', '*', 't_comunity_profile', null, null, null, array('comunityID = "'.$ID[0].'"')),
+				//ambil field record pada table comunity profile
 				'dField'	=> $this->Mod_crud->get_field_info('t_comunity_profile'), 
 				'Req' => ''
 			);
-		$this->load->view('pages/comunity/previewProfile', $data);
+		$this->load->view('pages/comunity/previewProfile', $data);//load modal preview profile
 	}
 
-		public function search()
+		public function search()//pencarian data pada profile comunity
 	{
-		$type 			= $this->input->post('Type');
-		$keyword 		= $this->input->post('Keyword');
-		$field1 		= $this->input->post('Field1');
+		$type 			= $this->input->post('Type');//tipe komunitas
+		$keyword 		= $this->input->post('Keyword');//kata kunci yang di cari
+		$field1 		= $this->input->post('Field1');//field yang di cari
 		$field2 		= $this->input->post('Field2');
 		$field3 		= $this->input->post('Field3');
 		$field4 		= $this->input->post('Field4');
 		$field5 		= $this->input->post('Field5');
 
-		if ($type) {
+		if ($type) {//jika post tipe memiliki nilai
 			$where = array('cp.typeComunity = "'.$type.'"');		
 		}else{
 			$where = null;
 		}
 
-		if ($field1) {
+		if ($field1) {//jika field 1 memilki nilai
 			$field['f1'] = $field1;
 			$select[] = 'cp.'.$field1;
 			$like[] = 'cp.'.$field1.' LIKE "%'.$keyword.'%" ';
@@ -364,26 +384,29 @@ class Comunity extends CommonDash {
 			$like[] = 'cp.'.$field5.' LIKE "%'.$keyword.'%" ';
 		}
 
-		if (empty($select) OR empty($like)) {
+		if (empty($select) OR empty($like)) {//jika array select atau array like kosong
+			//ambil field record profile komunitas
 			$fl = $this->Mod_crud->get_field_info('t_comunity_profile');
 			$i = 0; 
-			foreach ($fl as $key) {
+			foreach ($fl as $key) {//looping fl
 				$i++;
 				$name = $key->name;
+				//jika name bernilai sama dengan ..
 				if ($name == 'comunityProfileID' OR $name == 'comunityID' OR $name == 'comunityName') {
-					
+					//kosong
 				}else{
 				$lk[] = $name.' LIKE "%'.$keyword.'%" ';
 				$sl[] = 'cp.'.$name;
 				$field[] = $name;
 				}
 			}
-			$slct 	= implode(', ', $sl);
+			$slct 	= implode(', ', $sl);//query select
+			//query like
 			$likes 	= 'cp.comunityName LIKE "%'.$keyword.'%" OR '.implode(' OR ',$lk);
 		}else{
 			$slct 	= implode(', ', $select);
 			$likes 	= 'cp.comunityName LIKE "%'.$keyword.'%" OR '.implode(' OR ',$like);
-			$field = $field;
+			$field = $field;//field table
 		}
 
 		$data = array(
@@ -404,13 +427,15 @@ class Comunity extends CommonDash {
 			),
 			'titleWeb' => "Comunity Profile",
 			'breadcrumb' => explode(',', 'Comunity,Comunity List'),
+			//ambil data profile berdasarkan pencarian
 			'dMaster'	=> $this->Mod_crud->getData('result','cp.comunityProfileID, cp.comunityID, cp.comunityName, '.$slct, 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID'),$where,null,null,$likes),
+			//ambil field record table
 			'dField'	=> $this->Mod_crud->qry_field_info('cp.comunityProfileID, cp.comunityID, cp.comunityName, '.$slct, 't_comunity c',null,null,array('t_comunity_profile cp'=>'c.comunityID = cp.comunityID'),$where,null,null,$likes),	
 			'type'		=> $type,
 			'keyword'	=> $keyword,
 			'field'		=> $field,
 		);
-		$this->render('dashboard', 'pages/comunity/result', $data);
+		$this->render('dashboard', 'pages/comunity/result', $data);//load view comunity result
 	}
 
 

@@ -8,7 +8,6 @@ class Type extends CommonDash {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Mod_crud');
 	}
 	//type comunity index
 	public function index()
