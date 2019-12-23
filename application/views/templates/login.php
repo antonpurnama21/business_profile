@@ -31,7 +31,7 @@
 	<script type="text/javascript" src="<?= base_url('assets/dashboards/js/pages/login.js'); ?>"></script>
 	<script type="text/javascript" src="<?= base_url('assets/dashboards/js/pages/notif.js')?>"></script>
 
-	<script type="text/javascript" src="<?= base_url('assets/dashboards/js/plugins/ui/ripple.min.js'); ?>"></script>
+	<script type="text/javascript" src="<?= base_url('assets/dashboards/images/cbn-shortcut.png'); ?>"></script>
 	<!-- /theme JS files -->
 
 </head>
@@ -41,7 +41,7 @@
 	<!-- Main navbar -->
 	<div class="navbar navbar-inverse bg-indigo-700">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="index.html"><img src="<?= base_url('assets/dashboards/images/logo_light.png'); ?>" alt=""></a>
+			<a class="navbar-brand" href="<?= base_url()?>"><img src="<?= base_url('assets/dashboards/images/internship.png'); ?>" alt=""></a>
 
 			<ul class="nav navbar-nav pull-right visible-xs-block">
 				<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
