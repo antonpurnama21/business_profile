@@ -30,7 +30,7 @@ $(function() {
           order: [1, 'asc']
       });
 
-
+    //ajax field cbox field 1
      $.ajax({
             type:'POST',
             url: $('#getField1').val(),
@@ -42,7 +42,7 @@ $(function() {
                 });
             }
         });
-
+     //ajax field cbox field 2
      $.ajax({
             type:'POST',
             url: $('#getField2').val(),
@@ -54,7 +54,7 @@ $(function() {
                 });
             }
         });
-
+     //ajax field cbox field 3
      $.ajax({
             type:'POST',
             url: $('#getField3').val(),
@@ -66,7 +66,7 @@ $(function() {
                 });
             }
         });
-
+     //ajax field cbox field 4
      $.ajax({
             type:'POST',
             url: $('#getField4').val(),
@@ -78,7 +78,7 @@ $(function() {
                 });
             }
         });
-
+     //ajax field cbox field 5
      $.ajax({
             type:'POST',
             url: $('#getField5').val(),
@@ -90,7 +90,7 @@ $(function() {
                 });
             }
         });
-
+     //ajax cbox sector company
       $.ajax({
             type:'POST',
             url: $('#getSector').val(),
@@ -102,11 +102,12 @@ $(function() {
                 });
             }
         });
-
+      //form inout
       $("#pengaduan-form").validate({
         ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
         errorClass: 'validation-error-label',
         successClass: 'validation-valid-label',
+        //ketika aktif field input
         highlight: function(element, errorClass) {
             $(element).removeClass(errorClass);
             if ($(element).parent().hasClass('has-success')){
@@ -114,6 +115,7 @@ $(function() {
                 $(element).parent().addClass('has-error');
             }
         },
+        //ketika tidak aktif field input
         unhighlight: function(element, errorClass) {
             $(element).removeClass(errorClass);
 
@@ -123,7 +125,7 @@ $(function() {
             }
             
         },
-
+        //set error untuk inputan
         errorPlacement: function(error, element) {
             
             if (element.parent().hasClass('has-success')) {
@@ -158,6 +160,7 @@ $(function() {
             }
         },
         validClass: "validation-valid-label",
+        //set success untuk inputan
         success: function(label, element) {
             if (label.parent().hasClass('has-error')) {
                 label.parent().removeClass('has-error');
@@ -179,7 +182,7 @@ $(function() {
     });
     
 });    
-
+//fungsi untuk menampilkan modal
 function showModal(target,index,tipe){
     var urlx = '';
     var datax = '';
@@ -197,7 +200,7 @@ function showModal(target,index,tipe){
         $('#modalPortal').modal({show: true , backdrop : true , keyboard: true});
     });
 }
-
+//javascript ketika tombol id submit-dokumen pada form id dokumen-form di klik (javascript aksi dari button simpan)
 $(document).on("click", "#submit-dokumen", function () {
     $("#dokumen-form").validate({
         ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields

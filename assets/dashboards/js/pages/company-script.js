@@ -33,18 +33,6 @@
             }
         });
 
-    // $.ajax({
-    //         type:'POST',
-    //         url: $('#getEnum').val(),
-    //         dataType:"JSON",
-    //         success: function(data) {
-    //             $('#EnumTest').select2({
-    //                 placeholder: 'Enum Pick',
-    //                 data: data
-    //             });
-    //         }
-    //     });
-
     $.ajax({
             type:'POST',
             url: $('#getType').val(),
